@@ -3,8 +3,10 @@
 import { useActionState, useEffect, useMemo } from "react";
 import { useFormStatus } from "react-dom";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 import { createFoodAction } from "@/app/(dashboard)/foods/actions";
+import { FileUpload } from "@/components/file-upload";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
@@ -39,14 +41,15 @@ function SubmitButton({ disabled }: { disabled: boolean }) {
 
 export function AddFoodDialog({ restaurants, tags, optionsError }: AddFoodDialogProps) {
   const router = useRouter();
+  const [imageUrl, setImageUrl] = useState("");
   const [state, formAction] = useActionState(createFoodAction, {
     error: null,
     success: false,
   });
 
   const submitDisabled = useMemo(
-    () => Boolean(optionsError) || restaurants.length === 0,
-    [optionsError, restaurants.length],
+    () => Boolean(optionsError) || restaurants.length === 0 || imageUrl.trim().length === 0,
+    [imageUrl, optionsError, restaurants.length],
   );
 
   useEffect(() => {
@@ -107,14 +110,14 @@ export function AddFoodDialog({ restaurants, tags, optionsError }: AddFoodDialog
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="image">Image URL</Label>
-            <Input
-              id="image"
-              name="image"
-              type="url"
-              placeholder="https://cdn.example.com/foods/spicy-chicken.jpg"
-              required
-            />
+            <Label htmlFor="image-upload">Food Image</Label>
+            <input type="hidden" name="image" value={imageUrl} />
+            <FileUpload onUploadSuccess={setImageUrl} />
+            {!imageUrl ? (
+              <p className="text-sm text-muted-foreground">Select an image to upload.</p>
+            ) : (
+              <p className="text-sm text-muted-foreground">Image uploaded and attached.</p>
+            )}
           </div>
 
           <div className="space-y-2">

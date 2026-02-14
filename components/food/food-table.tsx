@@ -13,6 +13,24 @@ type FoodTableProps = {
   foods: FoodItem[];
 };
 
+function resolveDisplayImageUrl(rawImage: string) {
+  if (!rawImage.startsWith("/")) {
+    return rawImage;
+  }
+
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+  if (!apiBaseUrl) {
+    return rawImage;
+  }
+
+  try {
+    return new URL(rawImage, apiBaseUrl).toString();
+  } catch {
+    return rawImage;
+  }
+}
+
 export function FoodTable({ foods }: FoodTableProps) {
   if (!foods.length) {
     return (
@@ -60,7 +78,7 @@ export function FoodTable({ foods }: FoodTableProps) {
                   // Food images can come from arbitrary remote URLs controlled by backend data.
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
-                    src={food.image}
+                    src={resolveDisplayImageUrl(food.image)}
                     alt={food.name}
                     width={48}
                     height={48}
