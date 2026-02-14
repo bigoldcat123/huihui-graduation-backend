@@ -1,9 +1,10 @@
 import { cookies } from "next/headers";
 
+import { AddFoodDialog } from "@/components/food/add-food-dialog";
 import { FoodError } from "@/components/food/food-error";
 import { FoodPagination } from "@/components/food/food-pagination";
 import { FoodTable } from "@/components/food/food-table";
-import { getFoodList } from "@/lib/food";
+import { getFoodList, getRestaurantList, getTagList } from "@/lib/food";
 
 type SearchParamValue = string | string[] | undefined;
 
@@ -41,18 +42,39 @@ export async function FoodListSection({ searchParams }: FoodListSectionProps) {
   const cookieStore = await cookies();
   const token = cookieStore.get("admin_token")?.value;
 
-  const result = await getFoodList({
-    token,
-    page,
-    pageSize,
-  });
+  const [result, tagsResult, restaurantsResult] = await Promise.all([
+    getFoodList({
+      token,
+      page,
+      pageSize,
+    }),
+    getTagList(),
+    getRestaurantList(),
+  ]);
 
   const subtitle = `Page ${page} • ${pageSize} per page`;
+  const tags = tagsResult.ok ? tagsResult.data : [];
+  const restaurants = restaurantsResult.ok ? restaurantsResult.data : [];
+  const optionsError = [tagsResult, restaurantsResult]
+    .filter((response) => !response.ok)
+    .map((response) => response.error)
+    .join(" ");
+
+  const toolbar = (
+    <div className="flex flex-wrap items-center justify-between gap-3">
+      <p className="text-sm text-muted-foreground">{subtitle}</p>
+      <AddFoodDialog
+        tags={tags}
+        restaurants={restaurants}
+        optionsError={optionsError ? optionsError : null}
+      />
+    </div>
+  );
 
   if (!result.ok) {
     return (
       <div className="space-y-4">
-        <p className="text-sm text-muted-foreground">{subtitle}</p>
+        {toolbar}
         <FoodError message={result.error} retryHref={toHref(page, pageSize)} />
       </div>
     );
@@ -60,7 +82,7 @@ export async function FoodListSection({ searchParams }: FoodListSectionProps) {
 
   return (
     <div className="space-y-4">
-      <p className="text-sm text-muted-foreground">{subtitle}</p>
+      {toolbar}
       <FoodTable foods={result.data} />
       <FoodPagination
         page={page}
