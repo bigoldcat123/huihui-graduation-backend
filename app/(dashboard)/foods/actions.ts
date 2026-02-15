@@ -2,27 +2,16 @@
 
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
+import type { ApiResponse } from "@/lib/api-response";
 
 export type CreateFoodFormState = {
   error: string | null;
   success: boolean;
 };
 
-type CreateFoodResponse = {
-  code: number;
-  message: string;
-  data?: unknown;
-};
-
 export type CreateTagFormState = {
   error: string | null;
   success: boolean;
-};
-
-type CreateTagResponse = {
-  code: number;
-  message: string;
-  data?: unknown;
 };
 
 export async function createFoodAction(
@@ -87,7 +76,7 @@ export async function createFoodAction(
       cache: "no-store",
     });
 
-    const payload = (await response.json()) as CreateFoodResponse;
+    const payload = (await response.json()) as ApiResponse<unknown>;
 
     if (payload.code !== 200) {
       return { error: payload.message || "Failed to add food.", success: false };
@@ -138,7 +127,7 @@ export async function createTagAction(
       cache: "no-store",
     });
 
-    const payload = (await response.json()) as CreateTagResponse;
+    const payload = (await response.json()) as ApiResponse<unknown>;
 
     if (payload.code !== 200) {
       return { error: payload.message || "Failed to add tag.", success: false };

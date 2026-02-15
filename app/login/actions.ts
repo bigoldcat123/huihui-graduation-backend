@@ -2,6 +2,7 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import type { ApiResponse } from "@/lib/api-response";
 
 export type LoginFormState = {
   error: string | null;
@@ -9,14 +10,6 @@ export type LoginFormState = {
 
 const INITIAL_STATE: LoginFormState = {
   error: null,
-};
-
-type RootLoginResponse = {
-  code: number;
-  message: string;
-  data?: {
-    token?: string;
-  } | null;
 };
 
 export async function rootLoginAction(
@@ -50,7 +43,7 @@ export async function rootLoginAction(
     });
     
 
-    const payload = (await response.json()) as RootLoginResponse;
+    const payload = (await response.json()) as ApiResponse<{ token?: string }>;
     if (payload.code !== 200 || !payload.data?.token) {
       return { error: payload.message ?? "Login failed." };
     }

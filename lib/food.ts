@@ -1,3 +1,5 @@
+import type { ApiResponse } from "@/lib/api-response";
+
 export type FoodTag = {
   id: number;
   name: string;
@@ -19,18 +21,6 @@ export type FoodItem = {
   description: string;
   image: string | null;
   tags: FoodTag[];
-};
-
-type FoodListResponse = {
-  code: number;
-  message: string;
-  data?: FoodItem[];
-};
-
-type ApiResponse<T> = {
-  code: number;
-  message: string;
-  data?: T;
 };
 
 export type GetFoodListResult =
@@ -106,7 +96,7 @@ export async function getFoodList({
       cache: "no-store",
     });
 
-    const payload = (await response.json()) as FoodListResponse;
+    const payload = (await response.json()) as ApiResponse<FoodItem[]>;
 
     if (payload.code !== 200) {
       return { ok: false, error: payload.message || "Failed to load foods." };

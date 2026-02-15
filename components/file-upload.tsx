@@ -4,12 +4,7 @@ import { useState } from "react";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
-
-type UploadResponse = {
-  code: number;
-  message: string;
-  data?: string[];
-};
+import type { ApiResponse } from "@/lib/api-response";
 
 type FileUploadProps = {
   onUploadSuccess: (url: string) => void;
@@ -35,7 +30,7 @@ export function FileUpload({ onUploadSuccess }: FileUploadProps) {
         body,
       });
 
-      const payload = (await response.json()) as UploadResponse;
+      const payload = (await response.json()) as ApiResponse<string[]>;
 
       if (payload.code !== 200 || !payload.data?.length) {
         setError(payload.message || "Upload failed.");

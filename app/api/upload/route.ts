@@ -1,16 +1,11 @@
 import { NextResponse } from "next/server";
-
-type UploadResponse = {
-  code: number;
-  message: string;
-  data?: string[];
-};
+import type { ApiResponse } from "@/lib/api-response";
 
 export async function POST(request: Request) {
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   if (!apiBaseUrl) {
-    return NextResponse.json<UploadResponse>({
+    return NextResponse.json<ApiResponse<string[]>>({
       code: 500,
       message: "Missing NEXT_PUBLIC_API_BASE_URL configuration.",
     });
@@ -25,10 +20,10 @@ export async function POST(request: Request) {
       cache: "no-store",
     });
 
-    const payload = (await response.json()) as UploadResponse;
+    const payload = (await response.json()) as ApiResponse<string[]>;
     return NextResponse.json(payload);
   } catch {
-    return NextResponse.json<UploadResponse>({
+    return NextResponse.json<ApiResponse<string[]>>({
       code: 500,
       message: "Unable to upload file.",
     });
