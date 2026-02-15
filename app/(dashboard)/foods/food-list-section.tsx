@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 
 import { AddFoodDialog } from "@/components/food/add-food-dialog";
+import { AddTagDialog } from "@/components/food/add-tag-dialog";
 import { FoodError } from "@/components/food/food-error";
 import { FoodPagination } from "@/components/food/food-pagination";
 import { FoodTable } from "@/components/food/food-table";
@@ -63,11 +64,14 @@ export async function FoodListSection({ searchParams }: FoodListSectionProps) {
   const toolbar = (
     <div className="flex flex-wrap items-center justify-between gap-3">
       <p className="text-sm text-muted-foreground">{subtitle}</p>
-      <AddFoodDialog
-        tags={tags}
-        restaurants={restaurants}
-        optionsError={optionsError ? optionsError : null}
-      />
+      <div className="flex items-center gap-2">
+        <AddTagDialog />
+        <AddFoodDialog
+          tags={tags}
+          restaurants={restaurants}
+          optionsError={optionsError ? optionsError : null}
+        />
+      </div>
     </div>
   );
 

@@ -14,6 +14,17 @@ type CreateFoodResponse = {
   data?: unknown;
 };
 
+export type CreateTagFormState = {
+  error: string | null;
+  success: boolean;
+};
+
+type CreateTagResponse = {
+  code: number;
+  message: string;
+  data?: unknown;
+};
+
 export async function createFoodAction(
   _prevState: CreateFoodFormState,
   formData: FormData,
@@ -80,6 +91,57 @@ export async function createFoodAction(
 
     if (payload.code !== 200) {
       return { error: payload.message || "Failed to add food.", success: false };
+    }
+
+    revalidatePath("/foods");
+    return { error: null, success: true };
+  } catch {
+    return { error: "Unable to reach the server. Please retry.", success: false };
+  }
+}
+
+export async function createTagAction(
+  _prevState: CreateTagFormState,
+  formData: FormData,
+): Promise<CreateTagFormState> {
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+  if (!apiBaseUrl) {
+    return { error: "Missing NEXT_PUBLIC_API_BASE_URL configuration.", success: false };
+  }
+
+  const cookieStore = await cookies();
+  const token = cookieStore.get("admin_token")?.value;
+
+  if (!token) {
+    return { error: "Not authenticated. Please sign in again.", success: false };
+  }
+
+  const name = String(formData.get("name") ?? "").trim();
+  const image = String(formData.get("image") ?? "").trim();
+
+  if (!name || !image) {
+    return { error: "Name and image are required.", success: false };
+  }
+
+  try {
+    const response = await fetch(`${apiBaseUrl}/tag`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        name,
+        image,
+      }),
+      cache: "no-store",
+    });
+
+    const payload = (await response.json()) as CreateTagResponse;
+
+    if (payload.code !== 200) {
+      return { error: payload.message || "Failed to add tag.", success: false };
     }
 
     revalidatePath("/foods");
