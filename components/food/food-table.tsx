@@ -51,7 +51,7 @@ export function FoodTable({ foods, restaurants, tags, optionsError }: FoodTableP
           <TableRow>
             <TableHead>ID</TableHead>
             <TableHead>Name</TableHead>
-            <TableHead>Restaurant ID</TableHead>
+            <TableHead>Restaurant</TableHead>
             <TableHead>Description</TableHead>
             <TableHead>Tags</TableHead>
             <TableHead>Image</TableHead>
@@ -63,7 +63,7 @@ export function FoodTable({ foods, restaurants, tags, optionsError }: FoodTableP
             <TableRow key={food.id}>
               <TableCell className="font-medium">{food.id}</TableCell>
               <TableCell>{food.name}</TableCell>
-              <TableCell>{food.restaurant_id}</TableCell>
+              <TableCell>{food.restaurant_name}</TableCell>
               <TableCell className="max-w-md truncate">{food.description}</TableCell>
               <TableCell>
                 {food.tags?.length ? (

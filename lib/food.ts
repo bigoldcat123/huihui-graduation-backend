@@ -17,6 +17,7 @@ export type RestaurantItem = {
 export type FoodItem = {
   id: number;
   restaurant_id: number;
+  restaurant_name: string;
   name: string;
   description: string;
   image: string | null;

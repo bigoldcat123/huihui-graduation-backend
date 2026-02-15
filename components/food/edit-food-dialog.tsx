@@ -46,6 +46,9 @@ export function EditFoodDialog({ food, restaurants, tags, optionsError }: EditFo
     error: null,
     success: false,
   });
+  const initialRestaurantId =
+    food.restaurant_id ??
+    restaurants.find((restaurant) => restaurant.name === food.restaurant_name)?.id;
 
   const submitDisabled = useMemo(
     () => Boolean(optionsError) || restaurants.length === 0 || imageUrl.trim().length === 0,
@@ -81,9 +84,12 @@ export function EditFoodDialog({ food, restaurants, tags, optionsError }: EditFo
               id={`restaurant-${food.id}`}
               name="restaurant_id"
               className="border-input bg-background ring-offset-background focus-visible:ring-ring flex h-10 w-full rounded-md border px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
-              defaultValue={String(food.restaurant_id)}
+              defaultValue={initialRestaurantId ? String(initialRestaurantId) : ""}
               required
             >
+              <option value="" disabled>
+                Select a restaurant
+              </option>
               {restaurants.map((restaurant) => (
                 <option key={restaurant.id} value={restaurant.id}>
                   {restaurant.name}
