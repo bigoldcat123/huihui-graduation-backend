@@ -87,7 +87,12 @@ export async function FoodListSection({ searchParams }: FoodListSectionProps) {
   return (
     <div className="space-y-4">
       {toolbar}
-      <FoodTable foods={result.data} />
+      <FoodTable
+        foods={result.data}
+        restaurants={restaurants}
+        tags={tags}
+        optionsError={optionsError ? optionsError : null}
+      />
       <FoodPagination
         page={page}
         pageSize={pageSize}

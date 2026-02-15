@@ -1,3 +1,4 @@
+import { EditFoodDialog } from "@/components/food/edit-food-dialog";
 import { Badge } from "@/components/ui/badge";
 import {
   Table,
@@ -7,10 +8,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { FoodItem } from "@/lib/food";
+import type { FoodItem, FoodTag, RestaurantItem } from "@/lib/food";
 
 type FoodTableProps = {
   foods: FoodItem[];
+  restaurants: RestaurantItem[];
+  tags: FoodTag[];
+  optionsError: string | null;
 };
 
 function resolveDisplayImageUrl(rawImage: string) {
@@ -31,7 +35,7 @@ function resolveDisplayImageUrl(rawImage: string) {
   }
 }
 
-export function FoodTable({ foods }: FoodTableProps) {
+export function FoodTable({ foods, restaurants, tags, optionsError }: FoodTableProps) {
   if (!foods.length) {
     return (
       <div className="rounded-md border border-dashed p-8 text-center text-sm text-muted-foreground">
@@ -51,6 +55,7 @@ export function FoodTable({ foods }: FoodTableProps) {
             <TableHead>Description</TableHead>
             <TableHead>Tags</TableHead>
             <TableHead>Image</TableHead>
+            <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -87,6 +92,14 @@ export function FoodTable({ foods }: FoodTableProps) {
                 ) : (
                   <span className="text-muted-foreground">-</span>
                 )}
+              </TableCell>
+              <TableCell className="text-right">
+                <EditFoodDialog
+                  food={food}
+                  restaurants={restaurants}
+                  tags={tags}
+                  optionsError={optionsError}
+                />
               </TableCell>
             </TableRow>
           ))}
