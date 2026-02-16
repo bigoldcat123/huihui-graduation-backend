@@ -1,5 +1,3 @@
-import { cookies } from "next/headers";
-
 import { FoodTrackChartsClient } from "@/app/(outter)/foodtrack/charts-client";
 import type { ApiResponse } from "@/lib/api-response";
 
@@ -8,14 +6,12 @@ type LikedTagValue = {
   value: number;
 };
 
-async function getLikedTagValues(): Promise<LikedTagValue[]> {
+async function getLikedTagValues(token?: string): Promise<LikedTagValue[]> {
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   if (!apiBaseUrl) {
     return [];
   }
 
-  const cookieStore = await cookies();
-  const token = cookieStore.get("admin_token")?.value;
   if (!token) {
     return [];
   }
@@ -43,7 +39,11 @@ async function getLikedTagValues(): Promise<LikedTagValue[]> {
   }
 }
 
-export async function FoodTrackChartsServer() {
-  const pieData = await getLikedTagValues();
+type FoodTrackChartsServerProps = {
+  token?: string;
+};
+
+export async function FoodTrackChartsServer({ token }: FoodTrackChartsServerProps) {
+  const pieData = await getLikedTagValues(token);
   return <FoodTrackChartsClient pieData={pieData} />;
 }
