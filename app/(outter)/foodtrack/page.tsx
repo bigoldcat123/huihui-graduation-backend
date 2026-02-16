@@ -1,21 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import * as echarts from "echarts/core";
-import { LegendComponent, TitleComponent, TooltipComponent } from "echarts/components";
-import { PieChart } from "echarts/charts";
-import { LabelLayout } from "echarts/features";
-import { CanvasRenderer } from "echarts/renderers";
+import * as echarts from "echarts";
 import type { EChartsOption } from "echarts";
-
-echarts.use([
-  TitleComponent,
-  TooltipComponent,
-  LegendComponent,
-  PieChart,
-  CanvasRenderer,
-  LabelLayout,
-]);
 
 function genData(count: number) {
   const nameList = [
@@ -187,17 +174,19 @@ function genData(count: number) {
 }
 
 export default function FoodTrackPage() {
-  const chartRef = useRef<HTMLDivElement | null>(null);
+  const pieChartRef = useRef<HTMLDivElement | null>(null);
+  const lineChartRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (!chartRef.current) {
+    if (!pieChartRef.current || !lineChartRef.current) {
       return;
     }
 
-    const chart = echarts.init(chartRef.current);
+    const pieChart = echarts.init(pieChartRef.current);
+    const lineChart = echarts.init(lineChartRef.current);
     const data = genData(50);
-    const isPhone = chartRef.current.clientWidth <= 420;
-    const option: EChartsOption = {
+    const isPhone = pieChartRef.current.clientWidth <= 420;
+    const pieOption: EChartsOption = {
       title: {
         text: "同名数量统计",
         subtext: "纯属虚构",
@@ -249,21 +238,65 @@ export default function FoodTrackPage() {
       ],
     };
 
-    chart.setOption(option);
+    const lineOption: EChartsOption = {
+      title: {
+        text: "Weekly Trend",
+        left: "center",
+        top: 8,
+        textStyle: {
+          fontSize: isPhone ? 13 : 16,
+        },
+      },
+      grid: {
+        left: 36,
+        right: 16,
+        top: 44,
+        bottom: 30,
+      },
+      xAxis: {
+        type: "category",
+        data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      },
+      yAxis: {
+        type: "value",
+      },
+      tooltip: {
+        trigger: "axis",
+      },
+      series: [
+        {
+          data: [150, 230, 224, 218, 135, 147, 260],
+          type: "line",
+          smooth: true,
+        },
+      ],
+    };
 
-    const onResize = () => chart.resize();
+    pieChart.setOption(pieOption);
+    lineChart.setOption(lineOption);
+
+    const onResize = () => {
+      pieChart.resize();
+      lineChart.resize();
+    };
     window.addEventListener("resize", onResize);
 
     return () => {
       window.removeEventListener("resize", onResize);
-      chart.dispose();
+      pieChart.dispose();
+      lineChart.dispose();
     };
   }, []);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[url(/bg.png)] bg-cover bg-center p-3">
-      <div className="h-[640px] w-full max-w-[390px] overflow-hidden rounded-3xl border bg-background/90 shadow-2xl">
-        <div ref={chartRef} className="h-full w-full" />
+    <div className="flex min-h-screen items-start justify-center bg-[url(/bg.png)] bg-cover bg-center p-3 py-6">
+      <div className="flex w-full max-w-[390px] flex-col gap-4">
+        <div className="h-[430px] overflow-hidden rounded-3xl border bg-background/90 shadow-2xl">
+          <div ref={pieChartRef} className="h-full w-full" />
+        </div>
+        <div className="h-[260px] overflow-hidden rounded-3xl border bg-background/90 shadow-2xl">
+          <div ref={lineChartRef} className="h-full w-full" />
+        </div>
       </div>
     </div>
   );
