@@ -196,11 +196,19 @@ export default function FoodTrackPage() {
 
     const chart = echarts.init(chartRef.current);
     const data = genData(50);
+    const isPhone = chartRef.current.clientWidth <= 420;
     const option: EChartsOption = {
       title: {
         text: "同名数量统计",
         subtext: "纯属虚构",
         left: "center",
+        top: 10,
+        textStyle: {
+          fontSize: isPhone ? 14 : 18,
+        },
+        subtextStyle: {
+          fontSize: isPhone ? 11 : 12,
+        },
       },
       tooltip: {
         trigger: "item",
@@ -208,19 +216,28 @@ export default function FoodTrackPage() {
       },
       legend: {
         type: "scroll",
-        orient: "vertical",
-        right: 10,
-        top: 20,
-        bottom: 20,
+        orient: isPhone ? "horizontal" : "vertical",
+        left: isPhone ? 12 : undefined,
+        right: isPhone ? 12 : 10,
+        top: isPhone ? undefined : 20,
+        bottom: isPhone ? 10 : 20,
+        itemWidth: isPhone ? 10 : 14,
+        itemHeight: isPhone ? 8 : 10,
+        textStyle: {
+          fontSize: isPhone ? 10 : 12,
+        },
         data: data.legendData,
       },
       series: [
         {
           name: "姓名",
           type: "pie",
-          radius: "55%",
-          center: ["40%", "50%"],
+          radius: isPhone ? "50%" : "55%",
+          center: isPhone ? ["50%", "43%"] : ["40%", "50%"],
           data: data.seriesData,
+          label: {
+            fontSize: isPhone ? 10 : 12,
+          },
           emphasis: {
             itemStyle: {
               shadowBlur: 10,
@@ -244,8 +261,10 @@ export default function FoodTrackPage() {
   }, []);
 
   return (
-    <div className="h-screen bg-[url(/bg.png)] bg-cover bg-center bg-fixed p-6">
-      <div ref={chartRef} className="h-full w-full rounded-lg bg-background/90" />
+    <div className="flex min-h-screen items-center justify-center bg-[url(/bg.png)] bg-cover bg-center p-3">
+      <div className="h-[640px] w-full max-w-[390px] overflow-hidden rounded-3xl border bg-background/90 shadow-2xl">
+        <div ref={chartRef} className="h-full w-full" />
+      </div>
     </div>
   );
 }
