@@ -29,6 +29,12 @@ export default async function DashboardLayout({ children }: DashboardLayoutProps
             >
               Food Management
             </Link>
+            <Link
+              href="/suggestion"
+              className="mt-2 block rounded-md border px-3 py-2 text-sm font-medium"
+            >
+              Suggention
+            </Link>
           </nav>
           <div className="mt-auto border-t p-3">
             <SidebarUserMenu
