@@ -59,8 +59,8 @@ export function SuggestionTable({ suggestions }: SuggestionTableProps) {
             <TableHead>Type</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Content</TableHead>
+            <TableHead>Food</TableHead>
             <TableHead>Restaurant</TableHead>
-            <TableHead>User ID</TableHead>
             <TableHead>Created At</TableHead>
           </TableRow>
         </TableHeader>
@@ -75,8 +75,8 @@ export function SuggestionTable({ suggestions }: SuggestionTableProps) {
                 <Badge variant={getStatusBadgeVariant(suggestion.status)}>{suggestion.status}</Badge>
               </TableCell>
               <TableCell className="max-w-md truncate">{suggestion.content}</TableCell>
+              <TableCell>{suggestion.food?.name ?? "-"}</TableCell>
               <TableCell>{suggestion.restaurant?.name ?? "-"}</TableCell>
-              <TableCell>{suggestion.user_id}</TableCell>
               <TableCell>{suggestion.created_at}</TableCell>
             </TableRow>
           ))}
