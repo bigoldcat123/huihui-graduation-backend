@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -11,6 +12,34 @@ import type { SuggestionItem } from "@/lib/suggestion";
 type SuggestionTableProps = {
   suggestions: SuggestionItem[];
 };
+
+function getStatusBadgeVariant(status: string): "default" | "secondary" | "destructive" | "outline" {
+  const normalized = status.toUpperCase();
+  if (normalized === "APPROVED") {
+    return "default";
+  }
+  if (normalized === "REJECTED") {
+    return "destructive";
+  }
+  if (normalized === "PENDING") {
+    return "secondary";
+  }
+  return "outline";
+}
+
+function getTypeBadgeVariant(type: string): "default" | "secondary" | "destructive" | "outline" {
+  const normalized = type.toUpperCase();
+  if (normalized.includes("ADD")) {
+    return "default";
+  }
+  if (normalized.includes("UPDATE")) {
+    return "secondary";
+  }
+  if (normalized.includes("DELETE")) {
+    return "destructive";
+  }
+  return "outline";
+}
 
 export function SuggestionTable({ suggestions }: SuggestionTableProps) {
   if (!suggestions.length) {
@@ -39,8 +68,12 @@ export function SuggestionTable({ suggestions }: SuggestionTableProps) {
           {suggestions.map((suggestion) => (
             <TableRow key={suggestion.id}>
               <TableCell className="font-medium">{suggestion.id}</TableCell>
-              <TableCell>{suggestion.type}</TableCell>
-              <TableCell>{suggestion.status}</TableCell>
+              <TableCell>
+                <Badge variant={getTypeBadgeVariant(suggestion.type)}>{suggestion.type}</Badge>
+              </TableCell>
+              <TableCell>
+                <Badge variant={getStatusBadgeVariant(suggestion.status)}>{suggestion.status}</Badge>
+              </TableCell>
               <TableCell className="max-w-md truncate">{suggestion.content}</TableCell>
               <TableCell>{suggestion.restaurant?.name ?? "-"}</TableCell>
               <TableCell>{suggestion.user_id}</TableCell>
