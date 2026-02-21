@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
-import Link from "next/link";
 
 import { logoutAction } from "@/app/(dashboard)/sidebar-actions";
+import { DashboardSidebarNav } from "@/components/dashboard-sidebar-nav";
 import { SidebarUserMenu } from "@/components/sidebar-user-menu";
 import { getCurrentUser } from "@/lib/auth";
 
@@ -22,20 +22,7 @@ export default async function DashboardLayout({ children }: DashboardLayoutProps
           <div className="border-b p-5">
             <p className="text-lg font-semibold">Huihui Admin</p>
           </div>
-          <nav className="p-3">
-            <Link
-              href="/foods"
-              className="block rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground"
-            >
-              Food Management
-            </Link>
-            <Link
-              href="/suggestion"
-              className="mt-2 block rounded-md border px-3 py-2 text-sm font-medium"
-            >
-              Suggention
-            </Link>
-          </nav>
+          <DashboardSidebarNav />
           <div className="mt-auto border-t p-3">
             <SidebarUserMenu
               name={displayName}
