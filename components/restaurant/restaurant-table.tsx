@@ -1,3 +1,4 @@
+import { EditRestaurantDialog } from "@/components/restaurant/edit-restaurant-dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import type { RestaurantItem } from "@/lib/restaurant";
 
@@ -42,6 +43,7 @@ export function RestaurantTable({ restaurants }: RestaurantTableProps) {
             <TableHead>Location</TableHead>
             <TableHead>Description</TableHead>
             <TableHead>Image</TableHead>
+            <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -65,6 +67,9 @@ export function RestaurantTable({ restaurants }: RestaurantTableProps) {
                 ) : (
                   <span className="text-muted-foreground">-</span>
                 )}
+              </TableCell>
+              <TableCell className="text-right">
+                <EditRestaurantDialog restaurant={restaurant} />
               </TableCell>
             </TableRow>
           ))}
