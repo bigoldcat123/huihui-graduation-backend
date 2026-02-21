@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 const LOGIN_PATH = "/login";
 const ROOT_PATH = "/";
 const FOODS_PATH = "/foods";
+const RESTAURANTS_PATH = "/restaurants";
 const SUGGESTION_PATH = "/suggestion";
 const TOKEN_COOKIE = "admin_token";
 
@@ -11,7 +12,11 @@ function isProtectedPath(pathname: string) {
     return true;
   }
 
-  return pathname.startsWith(FOODS_PATH) || pathname.startsWith(SUGGESTION_PATH);
+  return (
+    pathname.startsWith(FOODS_PATH) ||
+    pathname.startsWith(RESTAURANTS_PATH) ||
+    pathname.startsWith(SUGGESTION_PATH)
+  );
 }
 
 export function proxy(request: NextRequest) {
@@ -30,5 +35,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/login", "/foods/:path*", "/suggestion/:path*"],
+  matcher: ["/", "/login", "/foods/:path*", "/restaurants/:path*", "/suggestion/:path*"],
 };
