@@ -1,4 +1,7 @@
+import Link from "next/link";
+
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -62,6 +65,7 @@ export function SuggestionTable({ suggestions }: SuggestionTableProps) {
             <TableHead>Food</TableHead>
             <TableHead>Restaurant</TableHead>
             <TableHead>Created At</TableHead>
+            <TableHead className="text-right">Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -78,6 +82,11 @@ export function SuggestionTable({ suggestions }: SuggestionTableProps) {
               <TableCell>{suggestion.food?.name ?? "-"}</TableCell>
               <TableCell>{suggestion.restaurant?.name ?? "-"}</TableCell>
               <TableCell>{suggestion.created_at}</TableCell>
+              <TableCell className="text-right">
+                <Button asChild size="sm" variant="outline">
+                  <Link href={`/suggestion/detail/${suggestion.id}`}>Detail</Link>
+                </Button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
