@@ -21,6 +21,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import type { FoodItem, FoodTag, RestaurantItem } from "@/lib/food";
+import { ICON_CLASS_NAME, Pencil } from "@/lib/icons";
 
 type EditFoodDialogProps = {
   food: FoodItem;
@@ -34,6 +35,7 @@ function SubmitButton({ disabled }: { disabled: boolean }) {
 
   return (
     <Button type="submit" disabled={disabled || pending}>
+      <Pencil className={ICON_CLASS_NAME} aria-hidden="true" />
       {pending ? "Saving..." : "Save Changes"}
     </Button>
   );
@@ -67,6 +69,7 @@ export function EditFoodDialog({ food, restaurants, tags, optionsError }: EditFo
     <Dialog>
       <DialogTrigger asChild>
         <Button size="sm" variant="outline">
+          <Pencil className={ICON_CLASS_NAME} aria-hidden="true" />
           Edit
         </Button>
       </DialogTrigger>

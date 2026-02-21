@@ -10,6 +10,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Eye,
+  ICON_CLASS_NAME,
+  renderSuggestionStatusIcon,
+  renderSuggestionTypeIcon,
+} from "@/lib/icons";
 import type { SuggestionItem } from "@/lib/suggestion";
 
 type SuggestionTableProps = {
@@ -73,10 +79,22 @@ export function SuggestionTable({ suggestions }: SuggestionTableProps) {
             <TableRow key={suggestion.id}>
               <TableCell className="font-medium">{suggestion.id}</TableCell>
               <TableCell>
-                <Badge variant={getTypeBadgeVariant(suggestion.type)}>{suggestion.type}</Badge>
+                <Badge
+                  variant={getTypeBadgeVariant(suggestion.type)}
+                  className="inline-flex items-center gap-1.5"
+                >
+                  {renderSuggestionTypeIcon(suggestion.type)}
+                  {suggestion.type}
+                </Badge>
               </TableCell>
               <TableCell>
-                <Badge variant={getStatusBadgeVariant(suggestion.status)}>{suggestion.status}</Badge>
+                <Badge
+                  variant={getStatusBadgeVariant(suggestion.status)}
+                  className="inline-flex items-center gap-1.5"
+                >
+                  {renderSuggestionStatusIcon(suggestion.status)}
+                  {suggestion.status}
+                </Badge>
               </TableCell>
               <TableCell className="max-w-md truncate">{suggestion.content}</TableCell>
               <TableCell>{suggestion.food?.name ?? "-"}</TableCell>
@@ -84,7 +102,10 @@ export function SuggestionTable({ suggestions }: SuggestionTableProps) {
               <TableCell>{suggestion.created_at}</TableCell>
               <TableCell className="text-right">
                 <Button asChild size="sm" variant="outline">
-                  <Link href={`/suggestion/detail/${suggestion.id}`}>Detail</Link>
+                  <Link href={`/suggestion/detail/${suggestion.id}`}>
+                    <Eye className={ICON_CLASS_NAME} aria-hidden="true" />
+                    Detail
+                  </Link>
                 </Button>
               </TableCell>
             </TableRow>

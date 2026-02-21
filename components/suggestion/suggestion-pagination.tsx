@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { FoodPageSizeSelect } from "@/components/food/food-page-size-select";
 import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight, ICON_CLASS_NAME } from "@/lib/icons";
 import type { SuggestionStatus, SuggestionType } from "@/lib/suggestion";
 
 type SuggestionPaginationProps = {
@@ -53,11 +54,13 @@ export function SuggestionPagination({
               href={buildHref(Math.max(1, page - 1), pageSize, status, suggestionType)}
               prefetch={false}
             >
+              <ChevronLeft className={ICON_CLASS_NAME} aria-hidden="true" />
               Prev
             </Link>
           </Button>
         ) : (
           <Button variant="outline" size="sm" disabled>
+            <ChevronLeft className={ICON_CLASS_NAME} aria-hidden="true" />
             Prev
           </Button>
         )}
@@ -65,11 +68,13 @@ export function SuggestionPagination({
           <Button asChild variant="outline" size="sm">
             <Link href={buildHref(page + 1, pageSize, status, suggestionType)} prefetch={false}>
               Next
+              <ChevronRight className={ICON_CLASS_NAME} aria-hidden="true" />
             </Link>
           </Button>
         ) : (
           <Button variant="outline" size="sm" disabled>
             Next
+            <ChevronRight className={ICON_CLASS_NAME} aria-hidden="true" />
           </Button>
         )}
       </div>

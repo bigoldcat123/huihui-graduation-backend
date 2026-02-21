@@ -22,6 +22,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import type { FoodTag, RestaurantItem } from "@/lib/food";
+import { ICON_CLASS_NAME, Plus } from "@/lib/icons";
 
 type AddFoodDialogProps = {
   restaurants: RestaurantItem[];
@@ -34,6 +35,7 @@ function SubmitButton({ disabled }: { disabled: boolean }) {
 
   return (
     <Button type="submit" disabled={disabled || pending}>
+      <Plus className={ICON_CLASS_NAME} aria-hidden="true" />
       {pending ? "Adding..." : "Add Food"}
     </Button>
   );
@@ -63,7 +65,10 @@ export function AddFoodDialog({ restaurants, tags, optionsError }: AddFoodDialog
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Add Food</Button>
+        <Button>
+          <Plus className={ICON_CLASS_NAME} aria-hidden="true" />
+          Add Food
+        </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-xl">
         <DialogHeader>

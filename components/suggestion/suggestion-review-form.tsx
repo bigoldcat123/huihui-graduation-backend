@@ -9,6 +9,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Check, ICON_CLASS_NAME, X } from "@/lib/icons";
 
 type SuggestionReviewFormProps = {
   suggestionId: number;
@@ -22,6 +23,7 @@ function ReviewButtons({ disabled }: { disabled: boolean }) {
   return (
     <div className="flex flex-wrap gap-2">
       <Button type="submit" name="status" value="APPROVED" disabled={disabled || pending}>
+        <Check className={ICON_CLASS_NAME} aria-hidden="true" />
         {pending ? "Submitting..." : "Accept"}
       </Button>
       <Button
@@ -31,6 +33,7 @@ function ReviewButtons({ disabled }: { disabled: boolean }) {
         variant="destructive"
         disabled={disabled || pending}
       >
+        <X className={ICON_CLASS_NAME} aria-hidden="true" />
         {pending ? "Submitting..." : "Reject"}
       </Button>
     </div>

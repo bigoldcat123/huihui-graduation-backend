@@ -8,6 +8,7 @@ import {
   type SuggestionStatus,
   type SuggestionType,
 } from "@/lib/suggestion";
+import { ICON_CLASS_NAME, ListFilter, Shapes } from "@/lib/icons";
 import {
   Select,
   SelectContent,
@@ -42,7 +43,8 @@ export function SuggestionFilters({ status, suggestionType }: SuggestionFiltersP
   return (
     <div className="flex flex-wrap items-center gap-2">
       <Select value={status ?? ALL_VALUE} onValueChange={(value) => updateParam("status", value)}>
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger className="w-[180px] gap-2">
+          <ListFilter className={ICON_CLASS_NAME} aria-hidden="true" />
           <SelectValue placeholder="Filter by status" />
         </SelectTrigger>
         <SelectContent>
@@ -59,7 +61,8 @@ export function SuggestionFilters({ status, suggestionType }: SuggestionFiltersP
         value={suggestionType ?? ALL_VALUE}
         onValueChange={(value) => updateParam("suggestion_type", value)}
       >
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger className="w-[180px] gap-2">
+          <Shapes className={ICON_CLASS_NAME} aria-hidden="true" />
           <SelectValue placeholder="Filter by type" />
         </SelectTrigger>
         <SelectContent>

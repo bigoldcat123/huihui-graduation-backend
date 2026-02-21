@@ -4,6 +4,7 @@ import { logoutAction } from "@/app/(dashboard)/sidebar-actions";
 import { DashboardSidebarNav } from "@/components/dashboard-sidebar-nav";
 import { SidebarUserMenu } from "@/components/sidebar-user-menu";
 import { getCurrentUser } from "@/lib/auth";
+import { LayoutDashboard } from "@/lib/icons";
 
 type DashboardLayoutProps = {
   children: React.ReactNode;
@@ -20,7 +21,10 @@ export default async function DashboardLayout({ children }: DashboardLayoutProps
       <div className="grid h-full grid-cols-1 md:grid-cols-[240px_1fr]">
         <aside className="flex h-full flex-col border-r bg-card">
           <div className="border-b p-5">
-            <p className="text-lg font-semibold">Huihui Admin</p>
+            <p className="inline-flex items-center gap-2 text-lg font-semibold">
+              <LayoutDashboard className="h-5 w-5" aria-hidden="true" />
+              Huihui Admin
+            </p>
           </div>
           <DashboardSidebarNav />
           <div className="mt-auto border-t p-3">

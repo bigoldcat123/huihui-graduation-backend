@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { FoodPageSizeSelect } from "@/components/food/food-page-size-select";
+import { ChevronLeft, ChevronRight, ICON_CLASS_NAME } from "@/lib/icons";
 
 type FoodPaginationProps = {
   page: number;
@@ -34,11 +35,13 @@ export function FoodPagination({
         {hasPrev ? (
           <Button asChild variant="outline" size="sm">
             <Link href={buildHref(Math.max(1, page - 1), pageSize)} prefetch={false}>
+              <ChevronLeft className={ICON_CLASS_NAME} aria-hidden="true" />
               Prev
             </Link>
           </Button>
         ) : (
           <Button variant="outline" size="sm" disabled>
+            <ChevronLeft className={ICON_CLASS_NAME} aria-hidden="true" />
             Prev
           </Button>
         )}
@@ -46,11 +49,13 @@ export function FoodPagination({
           <Button asChild variant="outline" size="sm">
             <Link href={buildHref(page + 1, pageSize)} prefetch={false}>
               Next
+              <ChevronRight className={ICON_CLASS_NAME} aria-hidden="true" />
             </Link>
           </Button>
         ) : (
           <Button variant="outline" size="sm" disabled>
             Next
+            <ChevronRight className={ICON_CLASS_NAME} aria-hidden="true" />
           </Button>
         )}
       </div>

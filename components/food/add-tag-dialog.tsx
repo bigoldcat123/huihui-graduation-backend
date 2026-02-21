@@ -19,12 +19,14 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ICON_CLASS_NAME, Tag } from "@/lib/icons";
 
 function SubmitButton({ disabled }: { disabled: boolean }) {
   const { pending } = useFormStatus();
 
   return (
     <Button type="submit" disabled={disabled || pending}>
+      <Tag className={ICON_CLASS_NAME} aria-hidden="true" />
       {pending ? "Adding..." : "Add Tag"}
     </Button>
   );
@@ -51,7 +53,10 @@ export function AddTagDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Add Tag</Button>
+        <Button variant="outline">
+          <Tag className={ICON_CLASS_NAME} aria-hidden="true" />
+          Add Tag
+        </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-lg">
         <DialogHeader>

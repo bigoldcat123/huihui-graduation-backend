@@ -9,6 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { ICON_CLASS_NAME, LogOut } from "@/lib/icons";
 
 type SidebarUserMenuProps = {
   name: string;
@@ -52,7 +53,8 @@ export function SidebarUserMenu({ name, profile, logoutAction }: SidebarUserMenu
         <DropdownMenuSeparator />
         <form action={logoutAction}>
           <DropdownMenuItem asChild variant="destructive">
-            <button type="submit" className="w-full cursor-pointer">
+            <button type="submit" className="inline-flex w-full cursor-pointer items-center gap-1.5">
+              <LogOut className={ICON_CLASS_NAME} aria-hidden="true" />
               Logout
             </button>
           </DropdownMenuItem>
