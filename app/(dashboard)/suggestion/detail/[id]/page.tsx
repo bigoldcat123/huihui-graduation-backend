@@ -1,9 +1,8 @@
-import Link from "next/link";
 import { cookies } from "next/headers";
 
+import { BackButton } from "@/components/back-button";
 import { SuggestionReviewForm } from "@/components/suggestion/suggestion-review-form";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getSuggestionDetail } from "@/lib/suggestion";
 
@@ -79,9 +78,7 @@ export default async function SuggestionDetailPage({ params }: SuggestionDetailP
 
   return (
     <div className="space-y-4">
-      <Button asChild variant="outline" size="sm">
-        <Link href="/suggestion">Back</Link>
-      </Button>
+      <BackButton />
 
       {!result.ok ? (
         <Card>
