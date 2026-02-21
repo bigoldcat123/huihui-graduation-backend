@@ -34,6 +34,8 @@ export default async function SuggestionPage({ searchParams }: SuggestionPagePro
   const resolvedSearchParams = await Promise.resolve(searchParams ?? {});
   const suspenseKey = `${searchParamToValue(resolvedSearchParams.page)}:${searchParamToValue(
     resolvedSearchParams.page_size,
+  )}:${searchParamToValue(resolvedSearchParams.status)}:${searchParamToValue(
+    resolvedSearchParams.suggestion_type,
   )}`;
 
   return (

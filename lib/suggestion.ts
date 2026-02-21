@@ -1,5 +1,19 @@
 import type { ApiResponse } from "@/lib/api-response";
 
+export const SUGGESTION_STATUS_OPTIONS = [
+  "PENDING",
+  "APPROVED",
+  "REJECTED",
+  "PREPARING",
+  "PROCESSING",
+  "FINISHED",
+] as const;
+
+export const SUGGESTION_TYPE_OPTIONS = ["ADD_FOOD", "UPDATE_FOOD", "OTHER"] as const;
+
+export type SuggestionStatus = (typeof SUGGESTION_STATUS_OPTIONS)[number];
+export type SuggestionType = (typeof SUGGESTION_TYPE_OPTIONS)[number];
+
 export type SuggestionItem = {
   id: number;
   content: string;
@@ -36,6 +50,8 @@ type GetSuggestionListInput = {
   token?: string;
   page: number;
   pageSize: number;
+  status?: SuggestionStatus;
+  suggestionType?: SuggestionType;
 };
 
 type GetSuggestionDetailInput = {
@@ -55,6 +71,8 @@ export async function getSuggestionList({
   token,
   page,
   pageSize,
+  status,
+  suggestionType,
 }: GetSuggestionListInput): Promise<GetSuggestionListResult> {
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -71,6 +89,12 @@ export async function getSuggestionList({
       page: String(page),
       page_size: String(pageSize),
     });
+    if (status) {
+      query.set("status", status);
+    }
+    if (suggestionType) {
+      query.set("suggestion_type", suggestionType);
+    }
 
     const response = await fetch(`${apiBaseUrl}/suggestion/list?${query.toString()}`, {
       method: "GET",
