@@ -103,35 +103,45 @@ export default async function SuggestionDetailPage({ params }: SuggestionDetailP
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <DetailRow label="Content" value={result.data.content || "-"} />
               <DetailRow label="Food" value={result.data.food?.name ?? "-"} />
               <DetailRow label="Restaurant" value={result.data.restaurant?.name ?? "-"} />
               <DetailRow label="Created At" value={result.data.created_at} />
               <DetailRow label="Reviewed At" value={result.data.reviewed_at ?? "-"} />
-              <DetailRow
-                label="Images"
-                value={
-                  result.data.images?.length ? (
-                    <div className="flex flex-wrap gap-2">
-                      {result.data.images.map((image, index) => (
-                        // Suggestion images come from backend/user content and can be remote.
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          key={`${image}-${index}`}
-                          src={resolveDisplayImageUrl(image)}
-                          alt={`suggestion-${result.data.id}-${index + 1}`}
-                          width={72}
-                          height={72}
-                          className="h-[72px] w-[72px] rounded-md border object-cover"
-                        />
-                      ))}
-                    </div>
-                  ) : (
-                    "-"
-                  )
-                }
-              />
               <DetailRow label="Existing Review Comment" value={result.data.review_comment ?? "-"} />
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Suggestion Content</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-1">
+                <p className="text-sm font-medium text-muted-foreground">Content</p>
+                <p className="text-sm">{result.data.content || "-"}</p>
+              </div>
+
+              <div className="space-y-2">
+                <p className="text-sm font-medium text-muted-foreground">Images</p>
+                {result.data.images?.length ? (
+                  <div className="flex flex-wrap gap-2">
+                    {result.data.images.map((image, index) => (
+                      // Suggestion images come from backend/user content and can be remote.
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        key={`${image}-${index}`}
+                        src={resolveDisplayImageUrl(image)}
+                        alt={`suggestion-${result.data.id}-${index + 1}`}
+                        width={72}
+                        height={72}
+                        className="h-[72px] w-[72px] rounded-md border object-cover"
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm">-</p>
+                )}
+              </div>
             </CardContent>
           </Card>
 
