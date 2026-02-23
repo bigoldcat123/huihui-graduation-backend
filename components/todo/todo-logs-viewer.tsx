@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
 
+import { AddTodoLogForm } from "@/components/todo/add-todo-log-form";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { renderSuggestionStatusIcon } from "@/lib/icons";
@@ -101,6 +102,12 @@ export async function TodoLogsViewer({
             <p className="text-sm text-muted-foreground">No logs for this status.</p>
           )}
         </div>
+
+        <AddTodoLogForm
+          suggestionId={suggestionId}
+          activeStatus={activeStatus}
+          currentStatus={normalizedCurrentStatus}
+        />
       </CardContent>
     </Card>
   );

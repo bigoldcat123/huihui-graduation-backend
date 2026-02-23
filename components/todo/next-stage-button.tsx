@@ -20,7 +20,7 @@ function SubmitButton({ disabled }: { disabled: boolean }) {
   const { pending } = useFormStatus();
 
   return (
-    <Button type="submit" disabled={disabled || pending}>
+    <Button size={'xs'} type="submit" disabled={disabled || pending}>
       <ChevronRight className={ICON_CLASS_NAME} aria-hidden="true" />
       {pending ? "Moving..." : "Next Status"}
     </Button>

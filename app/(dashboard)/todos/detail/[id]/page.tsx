@@ -131,10 +131,11 @@ export default async function TodoDetailPage({ params, searchParams }: TodoDetai
             <span className="font-medium text-muted-foreground">Reviewed At:</span>{" "}
             {suggestion.reviewed_at ?? "-"}
           </p>
+            <NextStageButton suggestionId={suggestion.id} currentStatus={suggestion.status} />
         </CardContent>
       </Card>
 
-      <NextStageButton suggestionId={suggestion.id} currentStatus={suggestion.status} />
+      
 
       <Suspense key={suspenseKey} fallback={<TodoLogsViewerFallback />}>
         <TodoLogsViewer
