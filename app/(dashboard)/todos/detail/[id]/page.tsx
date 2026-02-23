@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { cookies } from "next/headers";
 
 import { BackButton } from "@/components/back-button";
+import { NextStageButton } from "@/components/todo/next-stage-button";
 import { TodoLogsViewer } from "@/components/todo/todo-logs-viewer";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -132,6 +133,8 @@ export default async function TodoDetailPage({ params, searchParams }: TodoDetai
           </p>
         </CardContent>
       </Card>
+
+      <NextStageButton suggestionId={suggestion.id} currentStatus={suggestion.status} />
 
       <Suspense key={suspenseKey} fallback={<TodoLogsViewerFallback />}>
         <TodoLogsViewer
