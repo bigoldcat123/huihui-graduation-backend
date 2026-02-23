@@ -1,15 +1,19 @@
+import { Suspense } from "react";
 import { cookies } from "next/headers";
 
 import { BackButton } from "@/components/back-button";
+import { TodoLogsViewer } from "@/components/todo/todo-logs-viewer";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { renderSuggestionStatusIcon, renderSuggestionTypeIcon } from "@/lib/icons";
-import { getSuggestionDetail, getSuggestionTodoLog, type SuggestionStatus } from "@/lib/suggestion";
+import { getSuggestionDetail, type SuggestionStatus } from "@/lib/suggestion";
 
 const TODO_STATUSES: SuggestionStatus[] = ["APPROVED", "PREPARING", "PROCESSING", "FINISHED"];
 
 type TodoDetailPageProps = {
   params: Promise<{ id: string }> | { id: string };
+  searchParams?: Promise<{ status?: string | string[] }> | { status?: string | string[] };
 };
 
 function getStatusBadgeVariant(status: string): "default" | "secondary" | "destructive" | "outline" {
@@ -40,8 +44,30 @@ function getTypeBadgeVariant(type: string): "default" | "secondary" | "destructi
   return "outline";
 }
 
-export default async function TodoDetailPage({ params }: TodoDetailPageProps) {
+function TodoLogsViewerFallback() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-lg">Todo Logs</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <Skeleton className="h-8 w-full" />
+        <Skeleton className="h-20 w-full" />
+      </CardContent>
+    </Card>
+  );
+}
+
+function readStatusParam(value?: string | string[]) {
+  if (Array.isArray(value)) {
+    return value[0];
+  }
+  return value;
+}
+
+export default async function TodoDetailPage({ params, searchParams }: TodoDetailPageProps) {
   const resolvedParams = await Promise.resolve(params);
+  const resolvedSearchParams = await Promise.resolve(searchParams ?? {});
   const suggestionId = Number.parseInt(resolvedParams.id, 10);
   const cookieStore = await cookies();
   const token = cookieStore.get("admin_token")?.value;
@@ -64,22 +90,9 @@ export default async function TodoDetailPage({ params }: TodoDetailPageProps) {
     );
   }
 
-  const logsByStatus = await Promise.all(
-    TODO_STATUSES.map(async (status) => {
-      const result = await getSuggestionTodoLog({
-        token,
-        suggestionId,
-        status,
-      });
-
-      return {
-        status,
-        result,
-      };
-    }),
-  );
-
   const suggestion = detailResult.data;
+  const selectedStatus = readStatusParam(resolvedSearchParams.status);
+  const suspenseKey = `${suggestion.id}:${selectedStatus ?? ""}:${suggestion.status}`;
 
   return (
     <div className="space-y-4">
@@ -120,44 +133,14 @@ export default async function TodoDetailPage({ params }: TodoDetailPageProps) {
         </CardContent>
       </Card>
 
-      {logsByStatus.map(({ status, result }) => {
-        const isCurrentStatus = suggestion.status.toUpperCase() === status;
-
-        return (
-          <Card key={status} className={isCurrentStatus ? "border-primary" : undefined}>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-lg">
-                <Badge
-                  variant={getStatusBadgeVariant(status)}
-                  className="inline-flex items-center gap-1.5"
-                >
-                  {renderSuggestionStatusIcon(status)}
-                  {status}
-                </Badge>
-                {isCurrentStatus ? (
-                  <span className="text-sm font-normal text-primary">Current Status</span>
-                ) : null}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {!result.ok ? (
-                <p className="text-sm text-destructive">{result.error}</p>
-              ) : result.data.length ? (
-                <div className="space-y-3">
-                  {result.data.map((log, index) => (
-                    <div key={`${status}-${index}`} className="rounded-md border p-3">
-                      <p className="text-sm">{log.content}</p>
-                      <p className="mt-1 text-xs text-muted-foreground">{log.create_time}</p>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-sm text-muted-foreground">No logs for this status.</p>
-              )}
-            </CardContent>
-          </Card>
-        );
-      })}
+      <Suspense key={suspenseKey} fallback={<TodoLogsViewerFallback />}>
+        <TodoLogsViewer
+          suggestionId={suggestion.id}
+          currentStatus={suggestion.status}
+          selectedStatus={selectedStatus}
+          statuses={TODO_STATUSES}
+        />
+      </Suspense>
     </div>
   );
 }
