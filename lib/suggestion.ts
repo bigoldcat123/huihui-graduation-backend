@@ -50,6 +50,15 @@ export type GetSuggestionDetailResult =
   | { ok: true; data: SuggestionItem }
   | { ok: false; error: string };
 
+export type SuggestionTodoLogItem = {
+  content: string;
+  create_time: string;
+};
+
+export type GetSuggestionTodoLogResult =
+  | { ok: true; data: SuggestionTodoLogItem[] }
+  | { ok: false; error: string };
+
 type GetSuggestionListInput = {
   token?: string;
   page: number;
@@ -67,6 +76,12 @@ type GetSuggestionTodoListInput = {
   token?: string;
   page: number;
   pageSize: number;
+};
+
+type GetSuggestionTodoLogInput = {
+  token?: string;
+  suggestionId: number;
+  status: string;
 };
 
 function getApiBaseError() {
@@ -201,6 +216,54 @@ export async function getSuggestionDetail({
     }
 
     return { ok: true, data: payload.data };
+  } catch {
+    return { ok: false, error: "Unable to reach the server. Please retry." };
+  }
+}
+
+export async function getSuggestionTodoLog({
+  token,
+  suggestionId,
+  status,
+}: GetSuggestionTodoLogInput): Promise<GetSuggestionTodoLogResult> {
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+  if (!apiBaseUrl) {
+    return getApiBaseError();
+  }
+
+  if (!token) {
+    return getAuthError();
+  }
+
+  if (!Number.isFinite(suggestionId) || suggestionId < 1) {
+    return { ok: false, error: "Invalid suggestion id." };
+  }
+
+  const normalizedStatus = status.trim().toUpperCase();
+  if (!normalizedStatus) {
+    return { ok: false, error: "Invalid suggestion status." };
+  }
+
+  try {
+    const response = await fetch(
+      `${apiBaseUrl}/suggestion/todo_log/${suggestionId}/${encodeURIComponent(normalizedStatus)}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        cache: "no-store",
+      },
+    );
+
+    const payload = (await response.json()) as ApiResponse<SuggestionTodoLogItem[]>;
+
+    if (payload.code !== 200) {
+      return { ok: false, error: payload.message || "Failed to load todo logs." };
+    }
+
+    return { ok: true, data: Array.isArray(payload.data) ? payload.data : [] };
   } catch {
     return { ok: false, error: "Unable to reach the server. Please retry." };
   }

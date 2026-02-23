@@ -61,7 +61,7 @@ export async function TodoListSection({ searchParams }: TodoListSectionProps) {
   return (
     <div className="space-y-4">
       <p className="text-sm text-muted-foreground">{subtitle}</p>
-      <SuggestionTable suggestions={result.data} detailBasePath="/suggestion/detail" />
+      <SuggestionTable suggestions={result.data} detailBasePath="/todos/detail" />
       <TodoPagination
         page={page}
         pageSize={pageSize}
