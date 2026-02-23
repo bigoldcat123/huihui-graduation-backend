@@ -20,6 +20,7 @@ import type { SuggestionItem } from "@/lib/suggestion";
 
 type SuggestionTableProps = {
   suggestions: SuggestionItem[];
+  detailBasePath?: string;
 };
 
 function getStatusBadgeVariant(status: string): "default" | "secondary" | "destructive" | "outline" {
@@ -50,7 +51,7 @@ function getTypeBadgeVariant(type: string): "default" | "secondary" | "destructi
   return "outline";
 }
 
-export function SuggestionTable({ suggestions }: SuggestionTableProps) {
+export function SuggestionTable({ suggestions, detailBasePath = "/suggestion/detail" }: SuggestionTableProps) {
   if (!suggestions.length) {
     return (
       <div className="rounded-md border border-dashed p-8 text-center text-sm text-muted-foreground">
@@ -102,7 +103,7 @@ export function SuggestionTable({ suggestions }: SuggestionTableProps) {
               <TableCell>{suggestion.created_at}</TableCell>
               <TableCell className="text-right">
                 <Button asChild size="sm" variant="outline">
-                  <Link href={`/suggestion/detail/${suggestion.id}`}>
+                  <Link href={`${detailBasePath}/${suggestion.id}`}>
                     <Eye className={ICON_CLASS_NAME} aria-hidden="true" />
                     Detail
                   </Link>

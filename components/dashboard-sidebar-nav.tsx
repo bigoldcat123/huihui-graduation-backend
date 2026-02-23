@@ -3,13 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { ICON_CLASS_NAME, MessageSquare, Store, UtensilsCrossed } from "@/lib/icons";
+import { ICON_CLASS_NAME, ListTodo, MessageSquare, Store, UtensilsCrossed } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 const items = [
   { href: "/foods", label: "Food Management", icon: UtensilsCrossed },
   { href: "/restaurants", label: "Restaurant Management", icon: Store },
   { href: "/suggestion", label: "Suggention", icon: MessageSquare },
+  { href: "/todos", label: "Todos", icon: ListTodo },
 ];
 
 export function DashboardSidebarNav() {

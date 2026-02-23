@@ -5,6 +5,7 @@ const ROOT_PATH = "/";
 const FOODS_PATH = "/foods";
 const RESTAURANTS_PATH = "/restaurants";
 const SUGGESTION_PATH = "/suggestion";
+const TODOS_PATH = "/todos";
 const TOKEN_COOKIE = "admin_token";
 
 function isProtectedPath(pathname: string) {
@@ -15,7 +16,8 @@ function isProtectedPath(pathname: string) {
   return (
     pathname.startsWith(FOODS_PATH) ||
     pathname.startsWith(RESTAURANTS_PATH) ||
-    pathname.startsWith(SUGGESTION_PATH)
+    pathname.startsWith(SUGGESTION_PATH) ||
+    pathname.startsWith(TODOS_PATH)
   );
 }
 
@@ -35,5 +37,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/login", "/foods/:path*", "/restaurants/:path*", "/suggestion/:path*"],
+  matcher: ["/", "/login", "/foods/:path*", "/restaurants/:path*", "/suggestion/:path*", "/todos/:path*"],
 };

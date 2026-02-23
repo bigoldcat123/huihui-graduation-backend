@@ -131,11 +131,11 @@ export function FoodTrackChartsClient({ pieData }: FoodTrackChartsClientProps) {
 
   return (
     <div className="flex min-h-screen items-start justify-center bg-[url(/bg.png)] bg-cover bg-center p-3 pt-12 pb-6">
-      <div className="flex w-full max-w-[390px] flex-col gap-4">
-        <div className="h-[430px] overflow-hidden rounded-3xl border bg-background/90 shadow-2xl">
+      <div className="flex w-full max-w-97.5 flex-col gap-4">
+        <div className="h-107.5 overflow-hidden rounded-3xl border bg-background/90 shadow-2xl">
           <div ref={pieChartRef} className="h-full w-full" />
         </div>
-        <div className="h-[260px] overflow-hidden rounded-3xl border bg-background/90 shadow-2xl">
+        <div className="h-65 overflow-hidden rounded-3xl border bg-background/90 shadow-2xl">
           <div ref={lineChartRef} className="h-full w-full" />
         </div>
       </div>

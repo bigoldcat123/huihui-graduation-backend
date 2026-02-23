@@ -42,6 +42,10 @@ export type GetSuggestionListResult =
   | { ok: true; data: SuggestionItem[] }
   | { ok: false; error: string };
 
+export type GetSuggestionTodoListResult =
+  | { ok: true; data: SuggestionItem[] }
+  | { ok: false; error: string };
+
 export type GetSuggestionDetailResult =
   | { ok: true; data: SuggestionItem }
   | { ok: false; error: string };
@@ -57,6 +61,12 @@ type GetSuggestionListInput = {
 type GetSuggestionDetailInput = {
   token?: string;
   suggestionId: number;
+};
+
+type GetSuggestionTodoListInput = {
+  token?: string;
+  page: number;
+  pageSize: number;
 };
 
 function getApiBaseError() {
@@ -108,6 +118,47 @@ export async function getSuggestionList({
 
     if (payload.code !== 200) {
       return { ok: false, error: payload.message || "Failed to load suggestions." };
+    }
+
+    return { ok: true, data: Array.isArray(payload.data) ? payload.data : [] };
+  } catch {
+    return { ok: false, error: "Unable to reach the server. Please retry." };
+  }
+}
+
+export async function getSuggestionTodoList({
+  token,
+  page,
+  pageSize,
+}: GetSuggestionTodoListInput): Promise<GetSuggestionTodoListResult> {
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+  if (!apiBaseUrl) {
+    return getApiBaseError();
+  }
+
+  if (!token) {
+    return getAuthError();
+  }
+
+  try {
+    const query = new URLSearchParams({
+      page: String(page),
+      page_size: String(pageSize),
+    });
+
+    const response = await fetch(`${apiBaseUrl}/suggestion/list/todos?${query.toString()}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    });
+
+    const payload = (await response.json()) as ApiResponse<SuggestionItem[]>;
+
+    if (payload.code !== 200) {
+      return { ok: false, error: payload.message || "Failed to load todos." };
     }
 
     return { ok: true, data: Array.isArray(payload.data) ? payload.data : [] };
