@@ -115,6 +115,11 @@ export function AddFoodDialog({ restaurants, tags, optionsError }: AddFoodDialog
           </div>
 
           <div className="space-y-2">
+            <Label htmlFor="price">Price</Label>
+            <Input id="price" name="price" type="number" step="0.01" min="0" placeholder="12.50" required />
+          </div>
+
+          <div className="space-y-2">
             <Label htmlFor="image-upload">Food Image</Label>
             <input type="hidden" name="image" value={imageUrl} />
             <FileUpload onUploadSuccess={setImageUrl} />

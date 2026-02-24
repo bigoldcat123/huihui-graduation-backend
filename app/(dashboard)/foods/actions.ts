@@ -40,6 +40,7 @@ export async function createFoodAction(
   const name = String(formData.get("name") ?? "").trim();
   const description = String(formData.get("description") ?? "").trim();
   const image = String(formData.get("image") ?? "").trim();
+  const price = Number.parseFloat(String(formData.get("price") ?? ""));
   const tagIds = formData
     .getAll("tag_ids")
     .map((value) => Number.parseInt(String(value), 10))
@@ -49,8 +50,8 @@ export async function createFoodAction(
     return { error: "Please select a restaurant.", success: false };
   }
 
-  if (!name || !description || !image) {
-    return { error: "Name, description, and image are required.", success: false };
+  if (!name || !description || !image || !Number.isFinite(price) || price < 0) {
+    return { error: "Name, description, image, and valid price are required.", success: false };
   }
 
   try {
@@ -59,12 +60,14 @@ export async function createFoodAction(
       name: string;
       description: string;
       image: string;
+      price: number;
       tag_ids?: number[];
     } = {
       restaurant_id: restaurantId,
       name,
       description,
       image,
+      price,
     };
 
     if (tagIds.length) {
@@ -167,6 +170,7 @@ export async function updateFoodAction(
   const name = String(formData.get("name") ?? "").trim();
   const description = String(formData.get("description") ?? "").trim();
   const image = String(formData.get("image") ?? "").trim();
+  const price = Number.parseFloat(String(formData.get("price") ?? ""));
   const tagIds = formData
     .getAll("tag_ids")
     .map((value) => Number.parseInt(String(value), 10))
@@ -180,8 +184,8 @@ export async function updateFoodAction(
     return { error: "Please select a restaurant.", success: false };
   }
 
-  if (!name || !description || !image) {
-    return { error: "Name, description, and image are required.", success: false };
+  if (!name || !description || !image || !Number.isFinite(price) || price < 0) {
+    return { error: "Name, description, image, and valid price are required.", success: false };
   }
 
   try {
@@ -197,6 +201,7 @@ export async function updateFoodAction(
         name,
         description,
         image,
+        price,
         // Required semantics for update API: this fully replaces existing tags.
         tag_ids: tagIds,
       }),

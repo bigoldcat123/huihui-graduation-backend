@@ -21,6 +21,7 @@ export type FoodItem = {
   name: string;
   description: string;
   image: string | null;
+  price: number;
   tags: FoodTag[];
 };
 

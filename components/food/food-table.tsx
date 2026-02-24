@@ -53,6 +53,7 @@ export function FoodTable({ foods, restaurants, tags, optionsError }: FoodTableP
             <TableHead>Name</TableHead>
             <TableHead>Restaurant</TableHead>
             <TableHead>Description</TableHead>
+            <TableHead>Price</TableHead>
             <TableHead>Tags</TableHead>
             <TableHead>Image</TableHead>
             <TableHead className="text-right">Actions</TableHead>
@@ -65,6 +66,7 @@ export function FoodTable({ foods, restaurants, tags, optionsError }: FoodTableP
               <TableCell>{food.name}</TableCell>
               <TableCell>{food.restaurant_name}</TableCell>
               <TableCell className="max-w-md truncate">{food.description}</TableCell>
+              <TableCell>{food.price.toFixed(2)}</TableCell>
               <TableCell>
                 {food.tags?.length ? (
                   <div className="flex flex-wrap gap-1">

@@ -118,6 +118,19 @@ export function EditFoodDialog({ food, restaurants, tags, optionsError }: EditFo
           </div>
 
           <div className="space-y-2">
+            <Label htmlFor={`food-price-${food.id}`}>Price</Label>
+            <Input
+              id={`food-price-${food.id}`}
+              name="price"
+              type="number"
+              step="0.01"
+              min="0"
+              defaultValue={String(food.price)}
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
             <Label htmlFor={`food-image-${food.id}`}>Food Image</Label>
             <input type="hidden" name="image" value={imageUrl} />
             <FileUpload onUploadSuccess={setImageUrl} />
