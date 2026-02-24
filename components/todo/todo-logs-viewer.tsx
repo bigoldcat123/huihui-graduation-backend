@@ -70,7 +70,7 @@ export async function TodoLogsViewer({
 
             return (
               <Button key={status} asChild size="sm" variant={isActive ? "default" : "outline"}>
-                <Link href={href} prefetch={false}>
+                <Link href={href} prefetch={false} replace>
                   {renderSuggestionStatusIcon(status)}
                   {status}
                 </Link>
