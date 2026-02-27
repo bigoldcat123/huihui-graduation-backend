@@ -22,14 +22,14 @@ export async function createRestaurantAction(
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   if (!apiBaseUrl) {
-    return { error: "Missing NEXT_PUBLIC_API_BASE_URL configuration.", success: false };
+    return { error: "缺少 NEXT_PUBLIC_API_BASE_URL 配置。", success: false };
   }
 
   const cookieStore = await cookies();
   const token = cookieStore.get("admin_token")?.value;
 
   if (!token) {
-    return { error: "Not authenticated. Please sign in again.", success: false };
+    return { error: "登录已失效，请重新登录。", success: false };
   }
 
   const name = String(formData.get("name") ?? "").trim();
@@ -38,7 +38,7 @@ export async function createRestaurantAction(
   const image = String(formData.get("image") ?? "").trim();
 
   if (!name || !location || !image) {
-    return { error: "Name, location, and image are required.", success: false };
+    return { error: "名称、位置和图片不能为空。", success: false };
   }
 
   try {
@@ -70,14 +70,14 @@ export async function createRestaurantAction(
     const apiResponse = (await response.json()) as ApiResponse<unknown>;
 
     if (apiResponse.code !== 200) {
-      return { error: apiResponse.message || "Failed to add restaurant.", success: false };
+      return { error: apiResponse.message || "新增餐厅失败。", success: false };
     }
 
     revalidatePath("/restaurants");
     revalidatePath("/foods");
     return { error: null, success: true };
   } catch {
-    return { error: "Unable to reach the server. Please retry.", success: false };
+    return { error: "无法连接到服务器，请重试。", success: false };
   }
 }
 
@@ -88,14 +88,14 @@ export async function updateRestaurantAction(
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   if (!apiBaseUrl) {
-    return { error: "Missing NEXT_PUBLIC_API_BASE_URL configuration.", success: false };
+    return { error: "缺少 NEXT_PUBLIC_API_BASE_URL 配置。", success: false };
   }
 
   const cookieStore = await cookies();
   const token = cookieStore.get("admin_token")?.value;
 
   if (!token) {
-    return { error: "Not authenticated. Please sign in again.", success: false };
+    return { error: "登录已失效，请重新登录。", success: false };
   }
 
   const id = Number.parseInt(String(formData.get("id") ?? ""), 10);
@@ -105,11 +105,11 @@ export async function updateRestaurantAction(
   const image = String(formData.get("image") ?? "").trim();
 
   if (!Number.isFinite(id) || id < 1) {
-    return { error: "Invalid restaurant id.", success: false };
+    return { error: "餐厅 ID 无效。", success: false };
   }
 
   if (!name || !location || !image) {
-    return { error: "Name, location, and image are required.", success: false };
+    return { error: "名称、位置和图片不能为空。", success: false };
   }
 
   try {
@@ -143,13 +143,13 @@ export async function updateRestaurantAction(
     const apiResponse = (await response.json()) as ApiResponse<unknown>;
 
     if (apiResponse.code !== 200) {
-      return { error: apiResponse.message || "Failed to update restaurant.", success: false };
+      return { error: apiResponse.message || "更新餐厅失败。", success: false };
     }
 
     revalidatePath("/restaurants");
     revalidatePath("/foods");
     return { error: null, success: true };
   } catch {
-    return { error: "Unable to reach the server. Please retry.", success: false };
+    return { error: "无法连接到服务器，请重试。", success: false };
   }
 }

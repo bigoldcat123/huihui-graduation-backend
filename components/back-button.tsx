@@ -9,7 +9,7 @@ type BackButtonProps = {
   label?: string;
 };
 
-export function BackButton({ label = "Back" }: BackButtonProps) {
+export function BackButton({ label = "返回" }: BackButtonProps) {
   const router = useRouter();
 
   return (

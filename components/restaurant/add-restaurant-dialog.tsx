@@ -28,7 +28,7 @@ function SubmitButton({ disabled }: { disabled: boolean }) {
   return (
     <Button type="submit" disabled={disabled || pending}>
       <Plus className={ICON_CLASS_NAME} aria-hidden="true" />
-      {pending ? "Adding..." : "Add Restaurant"}
+      {pending ? "添加中..." : "新增餐厅"}
     </Button>
   );
 }
@@ -56,52 +56,52 @@ export function AddRestaurantDialog() {
       <DialogTrigger asChild>
         <Button>
           <Plus className={ICON_CLASS_NAME} aria-hidden="true" />
-          Add Restaurant
+          新增餐厅
         </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-xl">
         <DialogHeader>
-          <DialogTitle>Add New Restaurant</DialogTitle>
-          <DialogDescription>Create a restaurant with name, location, optional description, and image.</DialogDescription>
+          <DialogTitle>新增餐厅</DialogTitle>
+          <DialogDescription>填写餐厅名称、位置、可选描述并上传图片。</DialogDescription>
         </DialogHeader>
         <form action={formAction} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="restaurant-name">Name</Label>
-            <Input id="restaurant-name" name="name" placeholder="Sunset Noodle House" required />
+            <Label htmlFor="restaurant-name">名称</Label>
+            <Input id="restaurant-name" name="name" placeholder="落日面馆" required />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="restaurant-location">Location</Label>
-            <Input id="restaurant-location" name="location" placeholder="Downtown" required />
+            <Label htmlFor="restaurant-location">位置</Label>
+            <Input id="restaurant-location" name="location" placeholder="市中心" required />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="restaurant-description">Description (optional)</Label>
+            <Label htmlFor="restaurant-description">描述（可选）</Label>
             <Textarea id="restaurant-description" name="description" rows={3} />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="restaurant-image-upload">Image</Label>
+            <Label htmlFor="restaurant-image-upload">图片</Label>
             <input type="hidden" name="image" value={imageUrl} />
             <FileUpload onUploadSuccess={setImageUrl} />
             {!imageUrl ? (
-              <p className="text-sm text-muted-foreground">Select an image to upload.</p>
+              <p className="text-sm text-muted-foreground">请选择并上传图片。</p>
             ) : (
-              <p className="text-sm text-muted-foreground">Image uploaded and attached.</p>
+              <p className="text-sm text-muted-foreground">图片已上传并绑定。</p>
             )}
           </div>
 
           {state.error ? (
             <Alert variant="destructive">
-              <AlertTitle>Add restaurant failed</AlertTitle>
+              <AlertTitle>新增餐厅失败</AlertTitle>
               <AlertDescription>{state.error}</AlertDescription>
             </Alert>
           ) : null}
 
           {state.success ? (
             <Alert>
-              <AlertTitle>Restaurant added</AlertTitle>
-              <AlertDescription>Restaurant was created successfully. The list has been refreshed.</AlertDescription>
+              <AlertTitle>新增成功</AlertTitle>
+              <AlertDescription>餐厅已成功创建，列表已刷新。</AlertDescription>
             </Alert>
           ) : null}
 

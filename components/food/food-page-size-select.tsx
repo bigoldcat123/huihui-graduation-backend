@@ -32,12 +32,12 @@ export function FoodPageSizeSelect({ pageSize }: FoodPageSizeSelectProps) {
   return (
     <Select value={String(pageSize)} onValueChange={onPageSizeChange}>
       <SelectTrigger className="w-[120px]">
-        <SelectValue placeholder="Page size" />
+        <SelectValue placeholder="每页条数" />
       </SelectTrigger>
       <SelectContent>
         {PAGE_SIZE_OPTIONS.map((size) => (
           <SelectItem key={size} value={String(size)}>
-            {size} / page
+            {size} 条/页
           </SelectItem>
         ))}
       </SelectContent>

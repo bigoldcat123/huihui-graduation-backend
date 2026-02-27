@@ -53,7 +53,7 @@ export async function FoodListSection({ searchParams }: FoodListSectionProps) {
     getRestaurantList(),
   ]);
 
-  const subtitle = `Page ${page} • ${pageSize} per page`;
+  const subtitle = `第 ${page} 页 • 每页 ${pageSize} 条`;
   const tags = tagsResult.ok ? tagsResult.data : [];
   const restaurants = restaurantsResult.ok ? restaurantsResult.data : [];
   const optionsError = [tagsResult, restaurantsResult]

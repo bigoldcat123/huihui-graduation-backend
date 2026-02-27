@@ -8,7 +8,11 @@ import {
   renderSuggestionStatusIcon,
   renderSuggestionTypeIcon,
 } from "@/lib/icons";
-import { getSuggestionDetail } from "@/lib/suggestion";
+import {
+  getSuggestionDetail,
+  getSuggestionStatusLabel,
+  getSuggestionTypeLabel,
+} from "@/lib/suggestion";
 
 type SuggestionDetailPageProps = {
   params: Promise<{ id: string }> | { id: string };
@@ -86,7 +90,7 @@ export default async function SuggestionDetailPage({ params }: SuggestionDetailP
         <BackButton />
         <Card>
           <CardHeader>
-            <CardTitle>Suggestion Detail</CardTitle>
+            <CardTitle>建议详情</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-destructive">{result.error}</p>
@@ -105,41 +109,41 @@ export default async function SuggestionDetailPage({ params }: SuggestionDetailP
       <Card>
         <CardHeader>
           <CardTitle className="flex flex-wrap items-center gap-2 text-2xl">
-            Suggestion #{suggestion.id}
+            建议 #{suggestion.id}
             <Badge variant={getTypeBadgeVariant(suggestion.type)} className="inline-flex items-center gap-1.5">
               {renderSuggestionTypeIcon(suggestion.type)}
-              {suggestion.type}
+              {getSuggestionTypeLabel(suggestion.type)}
             </Badge>
             <Badge
               variant={getStatusBadgeVariant(suggestion.status)}
               className="inline-flex items-center gap-1.5"
             >
               {renderSuggestionStatusIcon(suggestion.status)}
-              {suggestion.status}
+              {getSuggestionStatusLabel(suggestion.status)}
             </Badge>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
-          <DetailRow label="Food" value={suggestion.food?.name ?? "-"} />
-          <DetailRow label="Restaurant" value={suggestion.restaurant?.name ?? "-"} />
-          <DetailRow label="Created At" value={suggestion.created_at} />
-          <DetailRow label="Reviewed At" value={suggestion.reviewed_at ?? "-"} />
-          <DetailRow label="Existing Review Comment" value={suggestion.review_comment ?? "-"} />
+          <DetailRow label="菜品" value={suggestion.food?.name ?? "-"} />
+          <DetailRow label="餐厅" value={suggestion.restaurant?.name ?? "-"} />
+          <DetailRow label="创建时间" value={suggestion.created_at} />
+          <DetailRow label="审核时间" value={suggestion.reviewed_at ?? "-"} />
+          <DetailRow label="审核备注" value={suggestion.review_comment ?? "-"} />
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader>
-          <CardTitle>Suggestion Content</CardTitle>
+          <CardTitle>建议内容</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-1">
-            <p className="text-sm font-medium text-muted-foreground">Content</p>
+            <p className="text-sm font-medium text-muted-foreground">内容</p>
             <p className="text-sm">{suggestion.content || "-"}</p>
           </div>
 
           <div className="space-y-2">
-            <p className="text-sm font-medium text-muted-foreground">Images</p>
+            <p className="text-sm font-medium text-muted-foreground">图片</p>
             {suggestion.images?.length ? (
               <div className="flex flex-wrap gap-2">
                 {suggestion.images.map((image, index) => (
@@ -164,7 +168,7 @@ export default async function SuggestionDetailPage({ params }: SuggestionDetailP
 
       <Card>
         <CardHeader>
-          <CardTitle>Review Suggestion</CardTitle>
+          <CardTitle>审核建议</CardTitle>
         </CardHeader>
         <CardContent>
           <SuggestionReviewForm

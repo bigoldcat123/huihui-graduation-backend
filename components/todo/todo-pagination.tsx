@@ -23,7 +23,7 @@ export function TodoPagination({ page, pageSize, hasPrev, hasNext }: TodoPaginat
   return (
     <div className="flex flex-wrap items-center justify-between gap-3">
       <div className="text-sm text-muted-foreground">
-        Page {page} · {pageSize} items per page
+        第 {page} 页 · 每页 {pageSize} 条
       </div>
       <div className="flex items-center gap-2">
         <FoodPageSizeSelect pageSize={pageSize} />
@@ -31,25 +31,25 @@ export function TodoPagination({ page, pageSize, hasPrev, hasNext }: TodoPaginat
           <Button asChild variant="outline" size="sm">
             <Link href={buildHref(Math.max(1, page - 1), pageSize)} prefetch={false}>
               <ChevronLeft className={ICON_CLASS_NAME} aria-hidden="true" />
-              Prev
+              上一页
             </Link>
           </Button>
         ) : (
           <Button variant="outline" size="sm" disabled>
             <ChevronLeft className={ICON_CLASS_NAME} aria-hidden="true" />
-            Prev
+            上一页
           </Button>
         )}
         {hasNext ? (
           <Button asChild variant="outline" size="sm">
             <Link href={buildHref(page + 1, pageSize)} prefetch={false}>
-              Next
+              下一页
               <ChevronRight className={ICON_CLASS_NAME} aria-hidden="true" />
             </Link>
           </Button>
         ) : (
           <Button variant="outline" size="sm" disabled>
-            Next
+            下一页
             <ChevronRight className={ICON_CLASS_NAME} aria-hidden="true" />
           </Button>
         )}

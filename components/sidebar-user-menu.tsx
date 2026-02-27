@@ -24,7 +24,7 @@ function getInitials(name: string) {
     .filter(Boolean);
 
   if (!chunks.length) {
-    return "U";
+    return "管";
   }
 
   return chunks
@@ -55,7 +55,7 @@ export function SidebarUserMenu({ name, profile, logoutAction }: SidebarUserMenu
           <DropdownMenuItem asChild variant="destructive">
             <button type="submit" className="inline-flex w-full cursor-pointer items-center gap-1.5">
               <LogOut className={ICON_CLASS_NAME} aria-hidden="true" />
-              Logout
+              退出登录
             </button>
           </DropdownMenuItem>
         </form>

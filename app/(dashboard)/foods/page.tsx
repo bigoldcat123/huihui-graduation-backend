@@ -20,7 +20,7 @@ function searchParamToValue(value: SearchParamValue) {
 function FoodListSectionFallback() {
   return (
     <div className="space-y-4">
-      <p className="animate-pulse text-sm text-muted-foreground">Loading foods...</p>
+      <p className="animate-pulse text-sm text-muted-foreground">正在加载菜品...</p>
       <div className="space-y-2">
         {Array.from({ length: 6 }).map((_, index) => (
           <Skeleton key={index} className="h-10 w-full" />
@@ -39,7 +39,7 @@ export default async function FoodsPage({ searchParams }: FoodsPageProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-2xl">Food Management</CardTitle>
+        <CardTitle className="text-2xl">菜品管理</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <Suspense key={suspenseKey} fallback={<FoodListSectionFallback />}>

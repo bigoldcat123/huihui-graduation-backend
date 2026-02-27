@@ -24,7 +24,7 @@ export async function moveToNextTodoStageAction(
 
   if (!apiBaseUrl) {
     return {
-      error: "Missing NEXT_PUBLIC_API_BASE_URL configuration.",
+      error: "缺少 NEXT_PUBLIC_API_BASE_URL 配置。",
       success: false,
       nextStatus: null,
     };
@@ -34,13 +34,13 @@ export async function moveToNextTodoStageAction(
   const token = cookieStore.get("admin_token")?.value;
 
   if (!token) {
-    return { error: "Not authenticated. Please sign in again.", success: false, nextStatus: null };
+    return { error: "登录已失效，请重新登录。", success: false, nextStatus: null };
   }
 
   const suggestionId = Number.parseInt(String(formData.get("suggestion_id") ?? ""), 10);
 
   if (!Number.isFinite(suggestionId) || suggestionId < 1) {
-    return { error: "Invalid suggestion id.", success: false, nextStatus: null };
+    return { error: "建议 ID 无效。", success: false, nextStatus: null };
   }
 
   try {
@@ -60,7 +60,7 @@ export async function moveToNextTodoStageAction(
 
     if (payload.code !== 200) {
       return {
-        error: payload.message || "Failed to move to next stage.",
+        error: payload.message || "推进到下一状态失败。",
         success: false,
         nextStatus: null,
       };
@@ -73,7 +73,7 @@ export async function moveToNextTodoStageAction(
 
     return { error: null, success: true, nextStatus };
   } catch {
-    return { error: "Unable to reach the server. Please retry.", success: false, nextStatus: null };
+    return { error: "无法连接到服务器，请重试。", success: false, nextStatus: null };
   }
 }
 
@@ -84,14 +84,14 @@ export async function addTodoLogAction(
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   if (!apiBaseUrl) {
-    return { error: "Missing NEXT_PUBLIC_API_BASE_URL configuration.", success: false };
+    return { error: "缺少 NEXT_PUBLIC_API_BASE_URL 配置。", success: false };
   }
 
   const cookieStore = await cookies();
   const token = cookieStore.get("admin_token")?.value;
 
   if (!token) {
-    return { error: "Not authenticated. Please sign in again.", success: false };
+    return { error: "登录已失效，请重新登录。", success: false };
   }
 
   const suggestionId = Number.parseInt(String(formData.get("suggestion_id") ?? ""), 10);
@@ -99,15 +99,15 @@ export async function addTodoLogAction(
   const logContent = String(formData.get("log_content") ?? "").trim();
 
   if (!Number.isFinite(suggestionId) || suggestionId < 1) {
-    return { error: "Invalid suggestion id.", success: false };
+    return { error: "建议 ID 无效。", success: false };
   }
 
   if (!currentStatus) {
-    return { error: "Invalid current status.", success: false };
+    return { error: "当前状态无效。", success: false };
   }
 
   if (!logContent) {
-    return { error: "Log content is required.", success: false };
+    return { error: "日志内容不能为空。", success: false };
   }
 
   try {
@@ -129,7 +129,7 @@ export async function addTodoLogAction(
 
     if (payload.code !== 200) {
       return {
-        error: payload.message || "Failed to add todo log.",
+        error: payload.message || "新增待办日志失败。",
         success: false,
       };
     }
@@ -139,6 +139,6 @@ export async function addTodoLogAction(
 
     return { error: null, success: true };
   } catch {
-    return { error: "Unable to reach the server. Please retry.", success: false };
+    return { error: "无法连接到服务器，请重试。", success: false };
   }
 }

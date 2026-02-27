@@ -22,7 +22,7 @@ function SubmitButton({ disabled }: { disabled: boolean }) {
   return (
     <Button size={'xs'} type="submit" disabled={disabled || pending}>
       <ChevronRight className={ICON_CLASS_NAME} aria-hidden="true" />
-      {pending ? "Moving..." : "Next Status"}
+      {pending ? "推进中..." : "进入下一状态"}
     </Button>
   );
 }
@@ -57,13 +57,13 @@ export function NextStageButton({ suggestionId, currentStatus }: NextStageButton
 
       {!canMove ? (
         <p className="text-xs text-muted-foreground">
-          Current status cannot move to next stage.
+          当前状态不可继续流转。
         </p>
       ) : null}
 
       {state.error ? (
         <Alert variant="destructive">
-          <AlertTitle>Move failed</AlertTitle>
+          <AlertTitle>流转失败</AlertTitle>
           <AlertDescription>{state.error}</AlertDescription>
         </Alert>
       ) : null}

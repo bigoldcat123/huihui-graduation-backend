@@ -8,7 +8,12 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { renderSuggestionStatusIcon, renderSuggestionTypeIcon } from "@/lib/icons";
-import { getSuggestionDetail, type SuggestionStatus } from "@/lib/suggestion";
+import {
+  getSuggestionDetail,
+  getSuggestionStatusLabel,
+  getSuggestionTypeLabel,
+  type SuggestionStatus,
+} from "@/lib/suggestion";
 
 const TODO_STATUSES: SuggestionStatus[] = ["APPROVED", "PREPARING", "PROCESSING", "FINISHED"];
 
@@ -49,7 +54,7 @@ function TodoLogsViewerFallback() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg">Todo Logs</CardTitle>
+        <CardTitle className="text-lg">待办日志</CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
         <Skeleton className="h-8 w-full" />
@@ -81,7 +86,7 @@ export default async function TodoDetailPage({ params, searchParams }: TodoDetai
         <BackButton />
         <Card>
           <CardHeader>
-            <CardTitle>Todo Detail</CardTitle>
+            <CardTitle>待办详情</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-destructive">{detailResult.error}</p>
@@ -102,40 +107,38 @@ export default async function TodoDetailPage({ params, searchParams }: TodoDetai
       <Card>
         <CardHeader>
           <CardTitle className="flex flex-wrap items-center gap-2 text-2xl">
-            Todo #{suggestion.id}
+            待办 #{suggestion.id}
             <Badge variant={getTypeBadgeVariant(suggestion.type)} className="inline-flex items-center gap-1.5">
               {renderSuggestionTypeIcon(suggestion.type)}
-              {suggestion.type}
+              {getSuggestionTypeLabel(suggestion.type)}
             </Badge>
             <Badge
               variant={getStatusBadgeVariant(suggestion.status)}
               className="inline-flex items-center gap-1.5"
             >
               {renderSuggestionStatusIcon(suggestion.status)}
-              {suggestion.status}
+              {getSuggestionStatusLabel(suggestion.status)}
             </Badge>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-2 text-sm">
           <p>
-            <span className="font-medium text-muted-foreground">Food:</span> {suggestion.food?.name ?? "-"}
+            <span className="font-medium text-muted-foreground">菜品：</span> {suggestion.food?.name ?? "-"}
           </p>
           <p>
-            <span className="font-medium text-muted-foreground">Restaurant:</span>{" "}
+            <span className="font-medium text-muted-foreground">餐厅：</span>{" "}
             {suggestion.restaurant?.name ?? "-"}
           </p>
           <p>
-            <span className="font-medium text-muted-foreground">Created At:</span> {suggestion.created_at}
+            <span className="font-medium text-muted-foreground">创建时间：</span> {suggestion.created_at}
           </p>
           <p>
-            <span className="font-medium text-muted-foreground">Reviewed At:</span>{" "}
+            <span className="font-medium text-muted-foreground">审核时间：</span>{" "}
             {suggestion.reviewed_at ?? "-"}
           </p>
-            <NextStageButton suggestionId={suggestion.id} currentStatus={suggestion.status} />
+          <NextStageButton suggestionId={suggestion.id} currentStatus={suggestion.status} />
         </CardContent>
       </Card>
-
-      
 
       <Suspense key={suspenseKey} fallback={<TodoLogsViewerFallback />}>
         <TodoLogsViewer

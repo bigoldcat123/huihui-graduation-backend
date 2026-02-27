@@ -9,6 +9,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ICON_CLASS_NAME, Plus } from "@/lib/icons";
+import { getSuggestionStatusLabel } from "@/lib/suggestion";
 
 type AddTodoLogFormProps = {
   suggestionId: number;
@@ -22,7 +23,7 @@ function SubmitButton({ disabled }: { disabled: boolean }) {
   return (
     <Button type="submit" size="sm" disabled={disabled || pending}>
       <Plus className={ICON_CLASS_NAME} aria-hidden="true" />
-      {pending ? "Submitting..." : "Submit Log"}
+      {pending ? "提交中..." : "提交日志"}
     </Button>
   );
 }
@@ -51,7 +52,7 @@ export function AddTodoLogForm({ suggestionId, activeStatus, currentStatus }: Ad
     <div className="space-y-2">
       <Button type="button" size="sm" variant="outline" onClick={() => setIsOpen((value) => !value)}>
         <Plus className={ICON_CLASS_NAME} aria-hidden="true" />
-        Add Log
+        新增日志
       </Button>
 
       {isOpen ? (
@@ -60,21 +61,21 @@ export function AddTodoLogForm({ suggestionId, activeStatus, currentStatus }: Ad
           <input type="hidden" name="current_status" value={normalizedActiveStatus} />
           <Input
             name="log_content"
-            placeholder="Write a todo log"
+            placeholder="请输入待办日志"
             required
             disabled={!canAdd}
           />
 
           {!canAdd ? (
             <p className="text-xs text-muted-foreground">
-              You can only add logs for current status ({normalizedCurrentStatus}).
+              仅可在当前状态（{getSuggestionStatusLabel(normalizedCurrentStatus)}）下新增日志。
             </p>
           ) : null}
 
           <div className="flex items-center gap-2">
             <SubmitButton disabled={!canAdd} />
             <Button type="button" size="sm" variant="ghost" onClick={() => setIsOpen(false)}>
-              Cancel
+              取消
             </Button>
           </div>
         </form>
@@ -82,7 +83,7 @@ export function AddTodoLogForm({ suggestionId, activeStatus, currentStatus }: Ad
 
       {state.error ? (
         <Alert variant="destructive">
-          <AlertTitle>Add log failed</AlertTitle>
+          <AlertTitle>新增日志失败</AlertTitle>
           <AlertDescription>{state.error}</AlertDescription>
         </Alert>
       ) : null}

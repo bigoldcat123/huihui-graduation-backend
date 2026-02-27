@@ -16,7 +16,11 @@ import {
   renderSuggestionStatusIcon,
   renderSuggestionTypeIcon,
 } from "@/lib/icons";
-import type { SuggestionItem } from "@/lib/suggestion";
+import {
+  getSuggestionStatusLabel,
+  getSuggestionTypeLabel,
+  type SuggestionItem,
+} from "@/lib/suggestion";
 
 type SuggestionTableProps = {
   suggestions: SuggestionItem[];
@@ -55,7 +59,7 @@ export function SuggestionTable({ suggestions, detailBasePath = "/suggestion/det
   if (!suggestions.length) {
     return (
       <div className="rounded-md border border-dashed p-8 text-center text-sm text-muted-foreground">
-        No suggestions found on this page.
+        当前页暂无建议数据。
       </div>
     );
   }
@@ -65,14 +69,14 @@ export function SuggestionTable({ suggestions, detailBasePath = "/suggestion/det
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>ID</TableHead>
-            <TableHead>Type</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Content</TableHead>
-            <TableHead>Food</TableHead>
-            <TableHead>Restaurant</TableHead>
-            <TableHead>Created At</TableHead>
-            <TableHead className="text-right">Action</TableHead>
+            <TableHead>编号</TableHead>
+            <TableHead>类型</TableHead>
+            <TableHead>状态</TableHead>
+            <TableHead>内容</TableHead>
+            <TableHead>菜品</TableHead>
+            <TableHead>餐厅</TableHead>
+            <TableHead>创建时间</TableHead>
+            <TableHead className="text-right">操作</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -85,7 +89,7 @@ export function SuggestionTable({ suggestions, detailBasePath = "/suggestion/det
                   className="inline-flex items-center gap-1.5"
                 >
                   {renderSuggestionTypeIcon(suggestion.type)}
-                  {suggestion.type}
+                  {getSuggestionTypeLabel(suggestion.type)}
                 </Badge>
               </TableCell>
               <TableCell>
@@ -94,7 +98,7 @@ export function SuggestionTable({ suggestions, detailBasePath = "/suggestion/det
                   className="inline-flex items-center gap-1.5"
                 >
                   {renderSuggestionStatusIcon(suggestion.status)}
-                  {suggestion.status}
+                  {getSuggestionStatusLabel(suggestion.status)}
                 </Badge>
               </TableCell>
               <TableCell className="max-w-md truncate">{suggestion.content}</TableCell>
@@ -105,7 +109,7 @@ export function SuggestionTable({ suggestions, detailBasePath = "/suggestion/det
                 <Button asChild size="sm" variant="outline">
                   <Link href={`${detailBasePath}/${suggestion.id}`}>
                     <Eye className={ICON_CLASS_NAME} aria-hidden="true" />
-                    Detail
+                    详情
                   </Link>
                 </Button>
               </TableCell>

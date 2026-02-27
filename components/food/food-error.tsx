@@ -11,11 +11,11 @@ type FoodErrorProps = {
 export function FoodError({ message, retryHref }: FoodErrorProps) {
   return (
     <Alert variant="destructive">
-      <AlertTitle>Failed to load foods</AlertTitle>
+      <AlertTitle>加载失败</AlertTitle>
       <AlertDescription className="mt-2 space-y-3">
         <p>{message}</p>
         <Button asChild size="sm" variant="outline">
-          <Link href={retryHref}>Retry</Link>
+          <Link href={retryHref}>重试</Link>
         </Button>
       </AlertDescription>
     </Alert>

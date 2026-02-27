@@ -26,14 +26,14 @@ export async function createFoodAction(
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   if (!apiBaseUrl) {
-    return { error: "Missing NEXT_PUBLIC_API_BASE_URL configuration.", success: false };
+    return { error: "缺少 NEXT_PUBLIC_API_BASE_URL 配置。", success: false };
   }
 
   const cookieStore = await cookies();
   const token = cookieStore.get("admin_token")?.value;
 
   if (!token) {
-    return { error: "Not authenticated. Please sign in again.", success: false };
+    return { error: "登录已失效，请重新登录。", success: false };
   }
 
   const restaurantId = Number.parseInt(String(formData.get("restaurant_id") ?? ""), 10);
@@ -47,11 +47,11 @@ export async function createFoodAction(
     .filter((value) => Number.isFinite(value) && value > 0);
 
   if (!Number.isFinite(restaurantId) || restaurantId < 1) {
-    return { error: "Please select a restaurant.", success: false };
+    return { error: "请选择餐厅。", success: false };
   }
 
   if (!name || !description || !image || !Number.isFinite(price) || price < 0) {
-    return { error: "Name, description, image, and valid price are required.", success: false };
+    return { error: "名称、描述、图片和有效价格不能为空。", success: false };
   }
 
   try {
@@ -87,13 +87,13 @@ export async function createFoodAction(
     const payload = (await response.json()) as ApiResponse<unknown>;
 
     if (payload.code !== 200) {
-      return { error: payload.message || "Failed to add food.", success: false };
+      return { error: payload.message || "新增菜品失败。", success: false };
     }
 
     revalidatePath("/foods");
     return { error: null, success: true };
   } catch {
-    return { error: "Unable to reach the server. Please retry.", success: false };
+    return { error: "无法连接到服务器，请重试。", success: false };
   }
 }
 
@@ -104,21 +104,21 @@ export async function createTagAction(
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   if (!apiBaseUrl) {
-    return { error: "Missing NEXT_PUBLIC_API_BASE_URL configuration.", success: false };
+    return { error: "缺少 NEXT_PUBLIC_API_BASE_URL 配置。", success: false };
   }
 
   const cookieStore = await cookies();
   const token = cookieStore.get("admin_token")?.value;
 
   if (!token) {
-    return { error: "Not authenticated. Please sign in again.", success: false };
+    return { error: "登录已失效，请重新登录。", success: false };
   }
 
   const name = String(formData.get("name") ?? "").trim();
   const image = String(formData.get("image") ?? "").trim();
 
   if (!name || !image) {
-    return { error: "Name and image are required.", success: false };
+    return { error: "名称和图片不能为空。", success: false };
   }
 
   try {
@@ -138,13 +138,13 @@ export async function createTagAction(
     const payload = (await response.json()) as ApiResponse<unknown>;
 
     if (payload.code !== 200) {
-      return { error: payload.message || "Failed to add tag.", success: false };
+      return { error: payload.message || "新增标签失败。", success: false };
     }
 
     revalidatePath("/foods");
     return { error: null, success: true };
   } catch {
-    return { error: "Unable to reach the server. Please retry.", success: false };
+    return { error: "无法连接到服务器，请重试。", success: false };
   }
 }
 
@@ -155,14 +155,14 @@ export async function updateFoodAction(
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   if (!apiBaseUrl) {
-    return { error: "Missing NEXT_PUBLIC_API_BASE_URL configuration.", success: false };
+    return { error: "缺少 NEXT_PUBLIC_API_BASE_URL 配置。", success: false };
   }
 
   const cookieStore = await cookies();
   const token = cookieStore.get("admin_token")?.value;
 
   if (!token) {
-    return { error: "Not authenticated. Please sign in again.", success: false };
+    return { error: "登录已失效，请重新登录。", success: false };
   }
 
   const id = Number.parseInt(String(formData.get("id") ?? ""), 10);
@@ -177,15 +177,15 @@ export async function updateFoodAction(
     .filter((value) => Number.isFinite(value) && value > 0);
 
   if (!Number.isFinite(id) || id < 1) {
-    return { error: "Invalid food id.", success: false };
+    return { error: "菜品 ID 无效。", success: false };
   }
 
   if (!Number.isFinite(restaurantId) || restaurantId < 1) {
-    return { error: "Please select a restaurant.", success: false };
+    return { error: "请选择餐厅。", success: false };
   }
 
   if (!name || !description || !image || !Number.isFinite(price) || price < 0) {
-    return { error: "Name, description, image, and valid price are required.", success: false };
+    return { error: "名称、描述、图片和有效价格不能为空。", success: false };
   }
 
   try {
@@ -211,12 +211,12 @@ export async function updateFoodAction(
     const payload = (await response.json()) as ApiResponse<unknown>;
 
     if (payload.code !== 200) {
-      return { error: payload.message || "Failed to update food.", success: false };
+      return { error: payload.message || "更新菜品失败。", success: false };
     }
 
     revalidatePath("/foods");
     return { error: null, success: true };
   } catch {
-    return { error: "Unable to reach the server. Please retry.", success: false };
+    return { error: "无法连接到服务器，请重试。", success: false };
   }
 }

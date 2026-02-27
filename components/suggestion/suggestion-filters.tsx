@@ -5,6 +5,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   SUGGESTION_STATUS_OPTIONS,
   SUGGESTION_TYPE_OPTIONS,
+  getSuggestionStatusLabel,
+  getSuggestionTypeLabel,
   type SuggestionStatus,
   type SuggestionType,
 } from "@/lib/suggestion";
@@ -45,13 +47,13 @@ export function SuggestionFilters({ status, suggestionType }: SuggestionFiltersP
       <Select value={status ?? ALL_VALUE} onValueChange={(value) => updateParam("status", value)}>
         <SelectTrigger className="w-[180px] gap-2">
           <ListFilter className={ICON_CLASS_NAME} aria-hidden="true" />
-          <SelectValue placeholder="Filter by status" />
+          <SelectValue placeholder="按状态筛选" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value={ALL_VALUE}>All Status</SelectItem>
+          <SelectItem value={ALL_VALUE}>全部状态</SelectItem>
           {SUGGESTION_STATUS_OPTIONS.map((option) => (
             <SelectItem key={option} value={option}>
-              {option}
+              {getSuggestionStatusLabel(option)}
             </SelectItem>
           ))}
         </SelectContent>
@@ -63,13 +65,13 @@ export function SuggestionFilters({ status, suggestionType }: SuggestionFiltersP
       >
         <SelectTrigger className="w-[180px] gap-2">
           <Shapes className={ICON_CLASS_NAME} aria-hidden="true" />
-          <SelectValue placeholder="Filter by type" />
+          <SelectValue placeholder="按类型筛选" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value={ALL_VALUE}>All Type</SelectItem>
+          <SelectItem value={ALL_VALUE}>全部类型</SelectItem>
           {SUGGESTION_TYPE_OPTIONS.map((option) => (
             <SelectItem key={option} value={option}>
-              {option}
+              {getSuggestionTypeLabel(option)}
             </SelectItem>
           ))}
         </SelectContent>

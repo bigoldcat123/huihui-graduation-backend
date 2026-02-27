@@ -19,7 +19,7 @@ function SubmitButton() {
 
   return (
     <Button type="submit" className="w-full" disabled={pending}>
-      {pending ? "Signing in..." : "Sign in"}
+      {pending ? "登录中..." : "登录"}
     </Button>
   );
 }
@@ -30,16 +30,16 @@ export function LoginForm() {
   return (
     <Card className="w-full max-w-md shadow-md">
       <CardHeader>
-        <CardTitle>Admin Sign In</CardTitle>
+        <CardTitle>管理员登录</CardTitle>
       </CardHeader>
       <CardContent>
         <form action={formAction} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="username">Username</Label>
+            <Label htmlFor="username">用户名</Label>
             <Input id="username" name="username" autoComplete="username" required />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">密码</Label>
             <Input
               id="password"
               name="password"
@@ -50,7 +50,7 @@ export function LoginForm() {
           </div>
           {state.error ? (
             <Alert variant="destructive" aria-live="polite">
-              <AlertTitle>Login failed</AlertTitle>
+              <AlertTitle>登录失败</AlertTitle>
               <AlertDescription>{state.error}</AlertDescription>
             </Alert>
           ) : null}

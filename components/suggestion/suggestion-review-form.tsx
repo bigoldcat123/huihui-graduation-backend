@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Check, ICON_CLASS_NAME, X } from "@/lib/icons";
+import { getSuggestionStatusLabel } from "@/lib/suggestion";
 
 type SuggestionReviewFormProps = {
   suggestionId: number;
@@ -24,7 +25,7 @@ function ReviewButtons({ disabled }: { disabled: boolean }) {
     <div className="flex flex-wrap gap-2">
       <Button type="submit" name="status" value="APPROVED" disabled={disabled || pending}>
         <Check className={ICON_CLASS_NAME} aria-hidden="true" />
-        {pending ? "Submitting..." : "Accept"}
+        {pending ? "提交中..." : "通过"}
       </Button>
       <Button
         type="submit"
@@ -34,7 +35,7 @@ function ReviewButtons({ disabled }: { disabled: boolean }) {
         disabled={disabled || pending}
       >
         <X className={ICON_CLASS_NAME} aria-hidden="true" />
-        {pending ? "Submitting..." : "Reject"}
+        {pending ? "提交中..." : "拒绝"}
       </Button>
     </div>
   );
@@ -66,35 +67,37 @@ export function SuggestionReviewForm({
     <form action={formAction} className="space-y-4">
       <input type="hidden" name="suggestion_id" value={suggestionId} />
       <div className="space-y-2">
-        <Label htmlFor="review_comment">Review Comment</Label>
+        <Label htmlFor="review_comment">审核备注</Label>
         <Textarea
           id="review_comment"
           name="review_comment"
           defaultValue={currentReviewComment ?? ""}
           rows={4}
-          placeholder="Write your review comment"
+          placeholder="请输入审核备注"
           disabled={!isPending}
         />
       </div>
 
       {!isPending ? (
         <Alert>
-          <AlertTitle>Already reviewed</AlertTitle>
-          <AlertDescription>This suggestion is {normalizedStatus}. You cannot review it again.</AlertDescription>
+          <AlertTitle>已审核</AlertTitle>
+          <AlertDescription>
+            当前建议状态为 {getSuggestionStatusLabel(normalizedStatus)}，不可重复审核。
+          </AlertDescription>
         </Alert>
       ) : null}
 
       {state.error ? (
         <Alert variant="destructive">
-          <AlertTitle>Review failed</AlertTitle>
+          <AlertTitle>审核失败</AlertTitle>
           <AlertDescription>{state.error}</AlertDescription>
         </Alert>
       ) : null}
 
       {state.success ? (
         <Alert>
-          <AlertTitle>Review submitted</AlertTitle>
-          <AlertDescription>Suggestion status was updated successfully.</AlertDescription>
+          <AlertTitle>提交成功</AlertTitle>
+          <AlertDescription>建议状态已成功更新。</AlertDescription>
         </Alert>
       ) : null}
 

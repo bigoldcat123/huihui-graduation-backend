@@ -26,11 +26,11 @@ export async function getRestaurantList({
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   if (!apiBaseUrl) {
-    return { ok: false, error: "Missing NEXT_PUBLIC_API_BASE_URL configuration." };
+    return { ok: false, error: "缺少 NEXT_PUBLIC_API_BASE_URL 配置。" };
   }
 
   if (!token) {
-    return { ok: false, error: "Not authenticated. Please sign in again." };
+    return { ok: false, error: "登录已失效，请重新登录。" };
   }
 
   try {
@@ -50,11 +50,11 @@ export async function getRestaurantList({
     const payload = (await response.json()) as ApiResponse<RestaurantItem[]>;
 
     if (payload.code !== 200) {
-      return { ok: false, error: payload.message || "Failed to load restaurants." };
+      return { ok: false, error: payload.message || "加载餐厅失败。" };
     }
 
     return { ok: true, data: Array.isArray(payload.data) ? payload.data : [] };
   } catch {
-    return { ok: false, error: "Unable to reach the server. Please retry." };
+    return { ok: false, error: "无法连接到服务器，请重试。" };
   }
 }

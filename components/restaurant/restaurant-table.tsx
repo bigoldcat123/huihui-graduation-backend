@@ -28,7 +28,7 @@ export function RestaurantTable({ restaurants }: RestaurantTableProps) {
   if (!restaurants.length) {
     return (
       <div className="rounded-md border border-dashed p-8 text-center text-sm text-muted-foreground">
-        No restaurants found on this page.
+        当前页暂无餐厅数据。
       </div>
     );
   }
@@ -38,12 +38,12 @@ export function RestaurantTable({ restaurants }: RestaurantTableProps) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>ID</TableHead>
-            <TableHead>Name</TableHead>
-            <TableHead>Location</TableHead>
-            <TableHead>Description</TableHead>
-            <TableHead>Image</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
+            <TableHead>编号</TableHead>
+            <TableHead>名称</TableHead>
+            <TableHead>位置</TableHead>
+            <TableHead>描述</TableHead>
+            <TableHead>图片</TableHead>
+            <TableHead className="text-right">操作</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

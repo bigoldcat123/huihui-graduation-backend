@@ -36,7 +36,7 @@ function SubmitButton({ disabled }: { disabled: boolean }) {
   return (
     <Button type="submit" disabled={disabled || pending}>
       <Pencil className={ICON_CLASS_NAME} aria-hidden="true" />
-      {pending ? "Saving..." : "Save Changes"}
+      {pending ? "保存中..." : "保存修改"}
     </Button>
   );
 }
@@ -70,19 +70,19 @@ export function EditFoodDialog({ food, restaurants, tags, optionsError }: EditFo
       <DialogTrigger asChild>
         <Button size="sm" variant="outline">
           <Pencil className={ICON_CLASS_NAME} aria-hidden="true" />
-          Edit
+          编辑
         </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-xl">
         <DialogHeader>
-          <DialogTitle>Edit Food</DialogTitle>
-          <DialogDescription>Update food fields, restaurant, image, and tags.</DialogDescription>
+          <DialogTitle>编辑菜品</DialogTitle>
+          <DialogDescription>更新菜品信息、所属餐厅、图片与标签。</DialogDescription>
         </DialogHeader>
         <form action={formAction} className="space-y-4">
           <input type="hidden" name="id" value={food.id} />
 
           <div className="space-y-2">
-            <Label htmlFor={`restaurant-${food.id}`}>Restaurant</Label>
+            <Label htmlFor={`restaurant-${food.id}`}>所属餐厅</Label>
             <select
               id={`restaurant-${food.id}`}
               name="restaurant_id"
@@ -91,7 +91,7 @@ export function EditFoodDialog({ food, restaurants, tags, optionsError }: EditFo
               required
             >
               <option value="" disabled>
-                Select a restaurant
+                请选择餐厅
               </option>
               {restaurants.map((restaurant) => (
                 <option key={restaurant.id} value={restaurant.id}>
@@ -102,12 +102,12 @@ export function EditFoodDialog({ food, restaurants, tags, optionsError }: EditFo
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor={`food-name-${food.id}`}>Food Name</Label>
+            <Label htmlFor={`food-name-${food.id}`}>菜品名称</Label>
             <Input id={`food-name-${food.id}`} name="name" defaultValue={food.name} required />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor={`food-description-${food.id}`}>Description</Label>
+            <Label htmlFor={`food-description-${food.id}`}>菜品描述</Label>
             <Textarea
               id={`food-description-${food.id}`}
               name="description"
@@ -118,7 +118,7 @@ export function EditFoodDialog({ food, restaurants, tags, optionsError }: EditFo
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor={`food-price-${food.id}`}>Price</Label>
+            <Label htmlFor={`food-price-${food.id}`}>价格</Label>
             <Input
               id={`food-price-${food.id}`}
               name="price"
@@ -131,18 +131,18 @@ export function EditFoodDialog({ food, restaurants, tags, optionsError }: EditFo
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor={`food-image-${food.id}`}>Food Image</Label>
+            <Label htmlFor={`food-image-${food.id}`}>菜品图片</Label>
             <input type="hidden" name="image" value={imageUrl} />
             <FileUpload onUploadSuccess={setImageUrl} />
             {!imageUrl ? (
-              <p className="text-sm text-muted-foreground">Select an image to upload.</p>
+              <p className="text-sm text-muted-foreground">请选择并上传图片。</p>
             ) : (
-              <p className="text-sm text-muted-foreground">Image uploaded and attached.</p>
+              <p className="text-sm text-muted-foreground">图片已上传并绑定。</p>
             )}
           </div>
 
           <div className="space-y-2">
-            <Label>Tags (optional)</Label>
+            <Label>标签（可选）</Label>
             {tags.length ? (
               <div className="grid max-h-40 grid-cols-2 gap-2 overflow-y-auto rounded-md border p-3">
                 {tags.map((tag) => (
@@ -159,28 +159,28 @@ export function EditFoodDialog({ food, restaurants, tags, optionsError }: EditFo
                 ))}
               </div>
             ) : (
-              <p className="text-sm text-muted-foreground">No tags available.</p>
+              <p className="text-sm text-muted-foreground">暂无可选标签。</p>
             )}
           </div>
 
           {optionsError ? (
             <Alert variant="destructive">
-              <AlertTitle>Unable to load options</AlertTitle>
+              <AlertTitle>选项加载失败</AlertTitle>
               <AlertDescription>{optionsError}</AlertDescription>
             </Alert>
           ) : null}
 
           {state.error ? (
             <Alert variant="destructive">
-              <AlertTitle>Update failed</AlertTitle>
+              <AlertTitle>更新失败</AlertTitle>
               <AlertDescription>{state.error}</AlertDescription>
             </Alert>
           ) : null}
 
           {state.success ? (
             <Alert>
-              <AlertTitle>Food updated</AlertTitle>
-              <AlertDescription>Food was updated successfully. The list has been refreshed.</AlertDescription>
+              <AlertTitle>更新成功</AlertTitle>
+              <AlertDescription>菜品已成功更新，列表已刷新。</AlertDescription>
             </Alert>
           ) : null}
 

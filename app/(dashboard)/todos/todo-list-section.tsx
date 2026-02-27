@@ -47,7 +47,7 @@ export async function TodoListSection({ searchParams }: TodoListSectionProps) {
     pageSize,
   });
 
-  const subtitle = `Page ${page} • ${pageSize} per page`;
+  const subtitle = `第 ${page} 页 • 每页 ${pageSize} 条`;
 
   if (!result.ok) {
     return (

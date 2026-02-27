@@ -25,12 +25,12 @@ export function FoodTrackChartsClient({ pieData }: FoodTrackChartsClientProps) {
     const pieChart = echarts.init(pieChartRef.current);
     const lineChart = echarts.init(lineChartRef.current);
     const isPhone = pieChartRef.current.clientWidth <= 420;
-    const effectivePieData = pieData.length ? pieData : [{ name: "No Data", value: 1 }];
+    const effectivePieData = pieData.length ? pieData : [{ name: "暂无数据", value: 1 }];
 
     const pieOption: EChartsOption = {
       title: {
-        text: "Tag Liked Values",
-        subtext: "from /tag/liked-values",
+        text: "标签喜爱值统计",
+        subtext: "数据来源：/tag/liked-values",
         left: "center",
         top: 10,
         textStyle: {
@@ -60,7 +60,7 @@ export function FoodTrackChartsClient({ pieData }: FoodTrackChartsClientProps) {
       },
       series: [
         {
-          name: "Tag",
+          name: "标签",
           type: "pie",
           radius: isPhone ? "50%" : "55%",
           center: isPhone ? ["50%", "43%"] : ["40%", "50%"],
@@ -81,7 +81,7 @@ export function FoodTrackChartsClient({ pieData }: FoodTrackChartsClientProps) {
 
     const lineOption: EChartsOption = {
       title: {
-        text: "Weekly Trend",
+        text: "每周趋势",
         left: "center",
         top: 8,
         textStyle: {
@@ -96,7 +96,7 @@ export function FoodTrackChartsClient({ pieData }: FoodTrackChartsClientProps) {
       },
       xAxis: {
         type: "category",
-        data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        data: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
       },
       yAxis: {
         type: "value",

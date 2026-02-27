@@ -14,7 +14,7 @@ export default async function DashboardLayout({ children }: DashboardLayoutProps
   const cookieStore = await cookies();
   const token = cookieStore.get("admin_token")?.value;
   const user = await getCurrentUser(token);
-  const displayName = user?.name?.trim() || "Admin";
+  const displayName = user?.name?.trim() || "管理员";
 
   return (
     <div className="h-screen overflow-hidden bg-background">
@@ -23,7 +23,7 @@ export default async function DashboardLayout({ children }: DashboardLayoutProps
           <div className="border-b p-5">
             <p className="inline-flex items-center gap-2 text-lg font-semibold">
               <LayoutDashboard className="h-5 w-5" aria-hidden="true" />
-              Huihui Admin
+              Huihui 管理后台
             </p>
           </div>
           <DashboardSidebarNav />

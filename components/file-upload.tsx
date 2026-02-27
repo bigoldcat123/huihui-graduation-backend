@@ -33,14 +33,14 @@ export function FileUpload({ onUploadSuccess }: FileUploadProps) {
       const payload = (await response.json()) as ApiResponse<string[]>;
 
       if (payload.code !== 200 || !payload.data?.length) {
-        setError(payload.message || "Upload failed.");
+        setError(payload.message || "上传失败。");
         return;
       }
 
       onUploadSuccess(payload.data[0]);
       setLastUploaded(file.name);
     } catch {
-      setError("Unable to upload file. Please retry.");
+      setError("文件上传失败，请重试。");
     } finally {
       setIsUploading(false);
     }
@@ -60,13 +60,13 @@ export function FileUpload({ onUploadSuccess }: FileUploadProps) {
           void handleUpload(file);
         }}
       />
-      {isUploading ? <p className="text-sm text-muted-foreground">Uploading image...</p> : null}
+      {isUploading ? <p className="text-sm text-muted-foreground">图片上传中...</p> : null}
       {!isUploading && lastUploaded ? (
-        <p className="text-sm text-muted-foreground">Uploaded: {lastUploaded}</p>
+        <p className="text-sm text-muted-foreground">已上传：{lastUploaded}</p>
       ) : null}
       {error ? (
         <Alert variant="destructive">
-          <AlertTitle>Upload failed</AlertTitle>
+          <AlertTitle>上传失败</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       ) : null}

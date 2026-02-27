@@ -27,7 +27,7 @@ function SubmitButton({ disabled }: { disabled: boolean }) {
   return (
     <Button type="submit" disabled={disabled || pending}>
       <Tag className={ICON_CLASS_NAME} aria-hidden="true" />
-      {pending ? "Adding..." : "Add Tag"}
+      {pending ? "添加中..." : "新增标签"}
     </Button>
   );
 }
@@ -55,42 +55,42 @@ export function AddTagDialog() {
       <DialogTrigger asChild>
         <Button variant="outline">
           <Tag className={ICON_CLASS_NAME} aria-hidden="true" />
-          Add Tag
+          新增标签
         </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>Add New Tag</DialogTitle>
-          <DialogDescription>Create a tag with an uploaded relative image URL.</DialogDescription>
+          <DialogTitle>新增标签</DialogTitle>
+          <DialogDescription>创建标签并上传相对路径图片。</DialogDescription>
         </DialogHeader>
         <form action={formAction} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="tag-name">Tag Name</Label>
-            <Input id="tag-name" name="name" placeholder="Spicy" required />
+            <Label htmlFor="tag-name">标签名称</Label>
+            <Input id="tag-name" name="name" placeholder="微辣" required />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="tag-image-upload">Tag Image</Label>
+            <Label htmlFor="tag-image-upload">标签图片</Label>
             <input type="hidden" name="image" value={imageUrl} />
             <FileUpload onUploadSuccess={setImageUrl} />
             {!imageUrl ? (
-              <p className="text-sm text-muted-foreground">Select an image to upload.</p>
+              <p className="text-sm text-muted-foreground">请选择并上传图片。</p>
             ) : (
-              <p className="text-sm text-muted-foreground">Image uploaded and attached.</p>
+              <p className="text-sm text-muted-foreground">图片已上传并绑定。</p>
             )}
           </div>
 
           {state.error ? (
             <Alert variant="destructive">
-              <AlertTitle>Add tag failed</AlertTitle>
+              <AlertTitle>新增标签失败</AlertTitle>
               <AlertDescription>{state.error}</AlertDescription>
             </Alert>
           ) : null}
 
           {state.success ? (
             <Alert>
-              <AlertTitle>Tag added</AlertTitle>
-              <AlertDescription>Tag was created successfully. The list has been refreshed.</AlertDescription>
+              <AlertTitle>新增成功</AlertTitle>
+              <AlertDescription>标签已成功创建，列表已刷新。</AlertDescription>
             </Alert>
           ) : null}
 

@@ -7,7 +7,7 @@ export async function POST(request: Request) {
   if (!apiBaseUrl) {
     return NextResponse.json<ApiResponse<string[]>>({
       code: 500,
-      message: "Missing NEXT_PUBLIC_API_BASE_URL configuration.",
+      message: "缺少 NEXT_PUBLIC_API_BASE_URL 配置。",
     });
   }
 
@@ -25,7 +25,7 @@ export async function POST(request: Request) {
   } catch {
     return NextResponse.json<ApiResponse<string[]>>({
       code: 500,
-      message: "Unable to upload file.",
+      message: "文件上传失败。",
     });
   }
 }

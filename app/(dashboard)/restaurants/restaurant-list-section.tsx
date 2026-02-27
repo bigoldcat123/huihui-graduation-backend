@@ -50,7 +50,7 @@ export async function RestaurantListSection({ searchParams }: RestaurantListSect
 
   const toolbar = (
     <div className="flex flex-wrap items-center justify-between gap-3">
-      <p className="text-sm text-muted-foreground">Page {page} • {pageSize} per page</p>
+      <p className="text-sm text-muted-foreground">第 {page} 页 • 每页 {pageSize} 条</p>
       <AddRestaurantDialog />
     </div>
   );

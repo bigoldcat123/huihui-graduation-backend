@@ -36,7 +36,7 @@ function SubmitButton({ disabled }: { disabled: boolean }) {
   return (
     <Button type="submit" disabled={disabled || pending}>
       <Plus className={ICON_CLASS_NAME} aria-hidden="true" />
-      {pending ? "Adding..." : "Add Food"}
+      {pending ? "添加中..." : "新增菜品"}
     </Button>
   );
 }
@@ -67,19 +67,17 @@ export function AddFoodDialog({ restaurants, tags, optionsError }: AddFoodDialog
       <DialogTrigger asChild>
         <Button>
           <Plus className={ICON_CLASS_NAME} aria-hidden="true" />
-          Add Food
+          新增菜品
         </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-xl">
         <DialogHeader>
-          <DialogTitle>Add New Food</DialogTitle>
-          <DialogDescription>
-            Fill in food details, choose a restaurant, and optionally assign tags.
-          </DialogDescription>
+          <DialogTitle>新增菜品</DialogTitle>
+          <DialogDescription>填写菜品信息，选择所属餐厅，并可选关联标签。</DialogDescription>
         </DialogHeader>
         <form action={formAction} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="restaurant_id">Restaurant</Label>
+            <Label htmlFor="restaurant_id">所属餐厅</Label>
             <select
               id="restaurant_id"
               name="restaurant_id"
@@ -88,7 +86,7 @@ export function AddFoodDialog({ restaurants, tags, optionsError }: AddFoodDialog
               required
             >
               <option value="" disabled>
-                Select a restaurant
+                请选择餐厅
               </option>
               {restaurants.map((restaurant) => (
                 <option key={restaurant.id} value={restaurant.id}>
@@ -99,39 +97,39 @@ export function AddFoodDialog({ restaurants, tags, optionsError }: AddFoodDialog
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="name">Food Name</Label>
-            <Input id="name" name="name" placeholder="Spicy Chicken" required />
+            <Label htmlFor="name">菜品名称</Label>
+            <Input id="name" name="name" placeholder="香辣鸡排" required />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description">菜品描述</Label>
             <Textarea
               id="description"
               name="description"
-              placeholder="Hot and crispy."
+              placeholder="外酥里嫩，微辣。"
               required
               rows={3}
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="price">Price</Label>
+            <Label htmlFor="price">价格</Label>
             <Input id="price" name="price" type="number" step="0.01" min="0" placeholder="12.50" required />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="image-upload">Food Image</Label>
+            <Label htmlFor="image-upload">菜品图片</Label>
             <input type="hidden" name="image" value={imageUrl} />
             <FileUpload onUploadSuccess={setImageUrl} />
             {!imageUrl ? (
-              <p className="text-sm text-muted-foreground">Select an image to upload.</p>
+              <p className="text-sm text-muted-foreground">请选择并上传图片。</p>
             ) : (
-              <p className="text-sm text-muted-foreground">Image uploaded and attached.</p>
+              <p className="text-sm text-muted-foreground">图片已上传并绑定。</p>
             )}
           </div>
 
           <div className="space-y-2">
-            <Label>Tags (optional)</Label>
+            <Label>标签（可选）</Label>
             {tags.length ? (
               <div className="grid max-h-40 grid-cols-2 gap-2 overflow-y-auto rounded-md border p-3">
                 {tags.map((tag) => (
@@ -147,30 +145,28 @@ export function AddFoodDialog({ restaurants, tags, optionsError }: AddFoodDialog
                 ))}
               </div>
             ) : (
-              <p className="text-sm text-muted-foreground">No tags available.</p>
+              <p className="text-sm text-muted-foreground">暂无可选标签。</p>
             )}
           </div>
 
           {optionsError ? (
             <Alert variant="destructive">
-              <AlertTitle>Unable to load form options</AlertTitle>
+              <AlertTitle>表单选项加载失败</AlertTitle>
               <AlertDescription>{optionsError}</AlertDescription>
             </Alert>
           ) : null}
 
           {state.error ? (
             <Alert variant="destructive">
-              <AlertTitle>Add food failed</AlertTitle>
+              <AlertTitle>新增菜品失败</AlertTitle>
               <AlertDescription>{state.error}</AlertDescription>
             </Alert>
           ) : null}
 
           {state.success ? (
             <Alert>
-              <AlertTitle>Food added</AlertTitle>
-              <AlertDescription>
-                Food was created successfully. The list has been refreshed.
-              </AlertDescription>
+              <AlertTitle>新增成功</AlertTitle>
+              <AlertDescription>菜品已成功创建，列表已刷新。</AlertDescription>
             </Alert>
           ) : null}
 

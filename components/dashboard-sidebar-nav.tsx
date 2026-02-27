@@ -7,10 +7,10 @@ import { ICON_CLASS_NAME, ListTodo, MessageSquare, Store, UtensilsCrossed } from
 import { cn } from "@/lib/utils";
 
 const items = [
-  { href: "/foods", label: "Food Management", icon: UtensilsCrossed },
-  { href: "/restaurants", label: "Restaurant Management", icon: Store },
-  { href: "/suggestion", label: "Suggention", icon: MessageSquare },
-  { href: "/todos", label: "Todos", icon: ListTodo },
+  { href: "/foods", label: "菜品管理", icon: UtensilsCrossed },
+  { href: "/restaurants", label: "餐厅管理", icon: Store },
+  { href: "/suggestion", label: "建议管理", icon: MessageSquare },
+  { href: "/todos", label: "待办管理", icon: ListTodo },
 ];
 
 export function DashboardSidebarNav() {

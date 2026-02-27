@@ -5,7 +5,11 @@ import { AddTodoLogForm } from "@/components/todo/add-todo-log-form";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { renderSuggestionStatusIcon } from "@/lib/icons";
-import { getSuggestionTodoLog, type SuggestionStatus } from "@/lib/suggestion";
+import {
+  getSuggestionStatusLabel,
+  getSuggestionTodoLog,
+  type SuggestionStatus,
+} from "@/lib/suggestion";
 
 type TodoLogsViewerProps = {
   suggestionId: number;
@@ -50,7 +54,7 @@ export async function TodoLogsViewer({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg">Todo Logs</CardTitle>
+        <CardTitle className="text-lg">待办日志</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex flex-wrap items-center gap-2">
@@ -63,7 +67,7 @@ export async function TodoLogsViewer({
               return (
                 <Button key={status} type="button" size="sm" variant="outline" disabled>
                   {renderSuggestionStatusIcon(status)}
-                  {status}
+                  {getSuggestionStatusLabel(status)}
                 </Button>
               );
             }
@@ -72,7 +76,7 @@ export async function TodoLogsViewer({
               <Button key={status} asChild size="sm" variant={isActive ? "default" : "outline"}>
                 <Link href={href} prefetch={false} replace>
                   {renderSuggestionStatusIcon(status)}
-                  {status}
+                  {getSuggestionStatusLabel(status)}
                 </Link>
               </Button>
             );
@@ -81,9 +85,9 @@ export async function TodoLogsViewer({
 
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <p className="text-sm font-medium">{activeStatus}</p>
+            <p className="text-sm font-medium">{getSuggestionStatusLabel(activeStatus)}</p>
             {activeStatus === normalizedCurrentStatus ? (
-              <span className="text-xs text-primary">Current Status</span>
+              <span className="text-xs text-primary">当前状态</span>
             ) : null}
           </div>
 
@@ -99,7 +103,7 @@ export async function TodoLogsViewer({
               ))}
             </div>
           ) : (
-            <p className="text-sm text-muted-foreground">No logs for this status.</p>
+            <p className="text-sm text-muted-foreground">该状态下暂无日志。</p>
           )}
         </div>
 

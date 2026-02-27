@@ -20,13 +20,13 @@ export async function rootLoginAction(
   const password = String(formData.get("password") ?? "");
 
   if (!username || !password) {
-    return { error: "Username and password are required." };
+    return { error: "用户名和密码不能为空。" };
   }
 
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   if (!apiBaseUrl) {
-    return { error: "Missing NEXT_PUBLIC_API_BASE_URL configuration." };
+    return { error: "缺少 NEXT_PUBLIC_API_BASE_URL 配置。" };
   }
 
   try {
@@ -45,7 +45,7 @@ export async function rootLoginAction(
 
     const payload = (await response.json()) as ApiResponse<{ token?: string }>;
     if (payload.code !== 200 || !payload.data?.token) {
-      return { error: payload.message ?? "Login failed." };
+      return { error: payload.message ?? "登录失败。" };
     }
 
     const cookieStore = await cookies();
@@ -57,7 +57,7 @@ export async function rootLoginAction(
       maxAge: 60 * 60 * 24,
     });
   } catch {
-    return { error: "Unable to reach the server." };
+    return { error: "无法连接到服务器。" };
   }
   redirect("/");
   return INITIAL_STATE;
