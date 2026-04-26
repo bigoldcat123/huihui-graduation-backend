@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 
+import { AddImageRecognitionDialog } from "@/components/image-recognition/add-image-recognition-dialog";
 import { ImageRecognitionError } from "@/components/image-recognition/image-recognition-error";
 import { ImageRecognitionPagination } from "@/components/image-recognition/image-recognition-pagination";
 import { ImageRecognitionTable } from "@/components/image-recognition/image-recognition-table";
@@ -49,10 +50,21 @@ export async function ImageRecognitionListSection({
     pageSize,
   });
 
+  const subtitle = `第 ${page} 页 · 每页 ${pageSize} 条`;
+
+  const toolbar = (
+    <div className="flex flex-wrap items-center justify-between gap-3">
+      <p className="text-sm text-muted-foreground">{subtitle}</p>
+      <div className="flex items-center gap-2">
+        <AddImageRecognitionDialog />
+      </div>
+    </div>
+  );
+
   if (!result.ok) {
     return (
       <div className="space-y-4">
-        <p className="text-sm text-muted-foreground">第 {page} 页 · 每页 {pageSize} 条</p>
+        {toolbar}
         <ImageRecognitionError message={result.error} retryHref={toHref(page, pageSize)} />
       </div>
     );
@@ -60,9 +72,7 @@ export async function ImageRecognitionListSection({
 
   return (
     <div className="space-y-4">
-      <p className="text-sm text-muted-foreground">
-        第 {page} 页 · 每页 {pageSize} 条
-      </p>
+      {toolbar}
       <ImageRecognitionTable items={result.data} />
       <ImageRecognitionPagination
         page={page}

@@ -18,13 +18,22 @@ function FoodNameCell({ food_name, image_url }: { food_name: string; image_url: 
   return (
     <div className="flex items-center gap-2">
       {image_url ? (
-        <Image
+        <img
           src={image_url}
           alt={food_name}
           width={40}
           height={40}
           className="rounded-md object-cover"
+        
+        
         />
+        // <Image
+        //   src={image_url}
+        //   alt={food_name}
+        //   width={40}
+        //   height={40}
+        //   className="rounded-md object-cover"
+        // />
       ) : (
         <div className="flex h-10 w-10 items-center justify-center rounded-md bg-muted">
           <ImageIcon className={ICON_CLASS_NAME} />

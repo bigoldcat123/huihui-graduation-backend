@@ -57,7 +57,6 @@ export async function getImageRecognitionList({
     });
 
     const payload = (await response.json()) as ApiResponse<PagingResponse>;
-    console.log(payload)
 
     if (payload.code !== 200) {
       return { ok: false, error: payload.message || "加载图片识别列表失败。" };
