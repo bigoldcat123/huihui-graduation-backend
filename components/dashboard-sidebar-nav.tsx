@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { ICON_CLASS_NAME, ListTodo, MessageSquare, Store, UtensilsCrossed } from "@/lib/icons";
+import { ICON_CLASS_NAME, ImageIcon, ListTodo, MessageSquare, Store, UtensilsCrossed } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 const items = [
@@ -11,6 +11,7 @@ const items = [
   { href: "/restaurants", label: "餐厅管理", icon: Store },
   { href: "/suggestion", label: "建议管理", icon: MessageSquare },
   { href: "/todos", label: "待办管理", icon: ListTodo },
+  { href: "/image-recognition", label: "图片识别管理", icon: ImageIcon },
 ];
 
 export function DashboardSidebarNav() {
