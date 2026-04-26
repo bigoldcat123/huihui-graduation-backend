@@ -1,3 +1,6 @@
+"use client";
+
+import { DeleteImageRecognitionButton } from "@/components/image-recognition/delete-image-recognition-button";
 import {
   Table,
   TableBody,
@@ -8,7 +11,6 @@ import {
 } from "@/components/ui/table";
 import { ImageIcon, ICON_CLASS_NAME } from "@/lib/icons";
 import type { ImageRecognitionItem } from "@/lib/image-recognition";
-import Image from "next/image";
 
 type ImageRecognitionTableProps = {
   items: ImageRecognitionItem[];
@@ -24,16 +26,7 @@ function FoodNameCell({ food_name, image_url }: { food_name: string; image_url: 
           width={40}
           height={40}
           className="rounded-md object-cover"
-        
-        
         />
-        // <Image
-        //   src={image_url}
-        //   alt={food_name}
-        //   width={40}
-        //   height={40}
-        //   className="rounded-md object-cover"
-        // />
       ) : (
         <div className="flex h-10 w-10 items-center justify-center rounded-md bg-muted">
           <ImageIcon className={ICON_CLASS_NAME} />
@@ -62,6 +55,7 @@ export function ImageRecognitionTable({ items }: ImageRecognitionTableProps) {
             <TableHead>菜品名称</TableHead>
             <TableHead>卡路里</TableHead>
             <TableHead>描述</TableHead>
+            <TableHead className="text-right">操作</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -73,6 +67,9 @@ export function ImageRecognitionTable({ items }: ImageRecognitionTableProps) {
               </TableCell>
               <TableCell>{item.cal}</TableCell>
               <TableCell className="max-w-md truncate">{item.description}</TableCell>
+              <TableCell className="text-right">
+                <DeleteImageRecognitionButton pointId={item.id} />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

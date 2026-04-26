@@ -25,6 +25,7 @@ import {
   Shapes,
   Store,
   Tag,
+  Trash2,
   UtensilsCrossed,
   X,
   XCircle,
@@ -49,6 +50,7 @@ export {
   Shapes,
   Store,
   Tag,
+  Trash2,
   UtensilsCrossed,
   X,
 };

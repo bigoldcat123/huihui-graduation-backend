@@ -9,6 +9,11 @@ export type AddImageRecognitionFormState = {
   success: boolean;
 };
 
+export type DeleteImageRecognitionFormState = {
+  error: string | null;
+  success: boolean;
+};
+
 export async function addImageRecognitionAction(
   _prevState: AddImageRecognitionFormState,
   formData: FormData,
@@ -68,6 +73,51 @@ export async function addImageRecognitionAction(
 
     if (payload.code !== 200) {
       return { error: payload.message || "新增图片识别记录失败。", success: false };
+    }
+
+    revalidatePath("/image-recognition");
+    return { error: null, success: true };
+  } catch {
+    return { error: "无法连接到服务器，请重试。", success: false };
+  }
+}
+
+export async function deleteImageRecognitionAction(
+  _prevState: DeleteImageRecognitionFormState,
+  formData: FormData,
+): Promise<DeleteImageRecognitionFormState> {
+  const apiBaseUrl = process.env.NEXT_PUBLIC_IMAGE_API_BASE_URL;
+
+  if (!apiBaseUrl) {
+    return { error: "缺少 NEXT_PUBLIC_IMAGE_API_BASE_URL 配置。", success: false };
+  }
+
+  const cookieStore = await cookies();
+  const token = cookieStore.get("admin_token")?.value;
+
+  if (!token) {
+    return { error: "登录已失效，请重新登录。", success: false };
+  }
+
+  const pointId = String(formData.get("point_id") ?? "").trim();
+
+  if (!pointId) {
+    return { error: "记录 ID 无效。", success: false };
+  }
+
+  try {
+    const response = await fetch(`${apiBaseUrl}/image/delete/${pointId}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    });
+
+    const payload = (await response.json()) as ApiResponse<unknown>;
+
+    if (payload.code !== 200) {
+      return { error: payload.message || "删除图片识别记录失败。", success: false };
     }
 
     revalidatePath("/image-recognition");
